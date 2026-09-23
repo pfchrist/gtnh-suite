@@ -299,6 +299,24 @@
         .badge-bee { background: rgba(234, 179, 8, 0.15); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.3); }
         .badge-crop { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
         .badge-magic { background: rgba(168, 85, 247, 0.15); color: #c084fc; border: 1px solid rgba(168, 85, 247, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .badge-ore { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
 
         .tool-title {
             font-size: 18px;
@@ -506,12 +524,12 @@
         
         <div class="stats-strip">
             <div class="stat-item">
-                <div class="stat-num">755</div>
-                <div class="stat-label">Foods &amp; Recipes</div>
+                <div class="stat-num">122</div>
+                <div class="stat-label">Ore Vein Mixes</div>
             </div>
             <div class="stat-item">
-                <div class="stat-num">133</div>
-                <div class="stat-label">Pantry Sourcing</div>
+                <div class="stat-num">755</div>
+                <div class="stat-label">Foods &amp; Recipes</div>
             </div>
             <div class="stat-item">
                 <div class="stat-num">150+</div>
@@ -522,7 +540,7 @@
                 <div class="stat-label">IC2 Crops</div>
             </div>
             <div class="stat-item">
-                <div class="stat-num">5 Tools</div>
+                <div class="stat-num">6 Tools</div>
                 <div class="stat-label">Active Suite</div>
             </div>
         </div>
@@ -534,7 +552,8 @@
         <!-- Controls Bar -->
         <div class="controls-bar">
             <div class="filter-group">
-                <button class="filter-btn active" onclick="filterCategory('all', this)">All Tools (5)</button>
+                <button class="filter-btn active" onclick="filterCategory('all', this)">All Tools (6)</button>
+                <button class="filter-btn" onclick="filterCategory('ores', this)">&#9935;&#65039; Ores &amp; Mining</button>
                 <button class="filter-btn" onclick="filterCategory('food', this)">&#127822; Food &amp; Nutrition</button>
                 <button class="filter-btn" onclick="filterCategory('genetics', this)">&#128029; Bees &amp; Crops</button>
                 <button class="filter-btn" onclick="filterCategory('magic', this)">&#128302; Thaumcraft &amp; Magic</button>
@@ -547,6 +566,402 @@
 
         <!-- Tools Grid -->
         <div class="tools-grid" id="tools-container">
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 0: Dimensional Ore & Processing Yield Navigator -->
+            <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">&#9935;&#65039;</div>
+                        <span class="tool-badge badge-ore">Worldgen &amp; Yields</span>
+                    </div>
+                    <div class="tool-title">Dimensional Ore &amp; Yield Navigator</div>
+                    <div class="tool-desc">Master prospecting engine, dimensional vein atlas, and multi-tier tech processing yield optimizer for GTNH 2.9.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>122 Code-Verified Veins:</strong> Overworld, Nether, Twilight Forest &amp; Moon</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Multi-Tier Processing:</strong> Stone &rarr; Steam &rarr; LV &rarr; MV (Chem Bath) &rarr; HV+</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>"Which Vein Should I Mine?":</strong> Target metal reverse ranker</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>F9 Chunk Math &amp; Visuals:</strong> 3&times;3 sector center validator</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#128640; Launch Tool</button>
+                    <a href="gtnh_ore_navigator.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
 
             <!-- Tool 1: Food & Nutrition Architect -->
             <div class="tool-card" data-category="food" style="--card-accent: #f59e0b;">
@@ -674,6 +1089,7 @@
                 <div class="workspace-app-title" id="workspace-title">Tool Workspace</div>
             </div>
             <div class="workspace-quick-nav">
+                <button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '&#9935;&#65039; Dimensional Ore &amp; Yield Navigator')">&#9935;&#65039; Ores</button>
                 <button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_food_architect.html', '&#127858; Food &amp; Nutrition Architect')">&#127858; Food</button>
                 <button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_bee_navigator.html', '&#128029; Bee Navigator')">&#128029; Bees</button>
                 <button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_cropsnh_navigator.html', '&#127793; IC2 Crops')">&#127793; Crops</button>
