@@ -1,0 +1,30 @@
+# GTNH Master Companion Suite 🚀
+
+A comprehensive, zero-dependency web companion suite for **GregTech: New Horizons 1.7.10**.
+
+## 🛠️ Included Tools
+
+1. **🍲 Food & Nutrition Architect (`gtnh_food_architect.html`)**
+   - 755 Cataloged Foods with hunger, saturation, and nutrition categories.
+   - Sustenance Lunchbox Rotation solver guaranteeing +8 Max Hearts.
+   - 8 Canonical Wild Gardens & 133 Base Pantry Sourcing Inspector.
+   - Tech Gate Timeline (Stone Age ➔ Steam ➔ LV ➔ MV ➔ HV+).
+
+2. **🐝 Bee Breeding & Mutation Navigator (`gtnh_bee_navigator.html`)**
+   - Forward & reverse genetic mutation solver across Forestry, Extra Bees, Magic Bees, and GTNH.
+   - Climate tolerances, diurnal traits, and comb centrifuge drop tables.
+
+3. **🌱 IC2 Crops++ Mutation & Stat Suite (`gtnh_cropsnh_navigator.html`)**
+   - Resource crop crossing trees (*Ferru, Aurelia, Tearstalks, Oil Berries*).
+   - 21/31/0 Growth/Gain/Resistance breeding strategies.
+
+4. **⚗️ Clean Crucible & Essentia Solver (`gtnh_clean_crucible.html`)**
+   - Zero-flux alchemical calculator determining exact item inputs with minimum aspect waste.
+
+5. **📜 Thaumcraft Research Navigator (`thaumcraft_research_navigator.html`)**
+   - Hex grid shortest-path aspect combination solver.
+
+---
+
+## 🌐 Live Hosting
+This suite is 100% client-side (vanilla HTML/CSS/JS) and runs instantly on GitHub Pages with zero backend setup.
