@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-11CS186SLE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-11CS186SLE');
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GTNH Master Suite | GregTech: New Horizons Companion Hub</title>
@@ -712,6 +721,12 @@
         }
 
         function launchEmbeddedTool(url, title) {
+            if (typeof gtag === 'function') {
+                gtag('event', 'launch_tool', {
+                    'tool_title': title.replace(/<[^>]*>/g, ''),
+                    'tool_url': url
+                });
+            }
             const ws = document.getElementById('workspace-view');
             const frame = document.getElementById('workspace-iframe');
             const titleEl = document.getElementById('workspace-title');
