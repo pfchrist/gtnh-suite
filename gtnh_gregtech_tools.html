@@ -1,0 +1,2055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-11CS186SLE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-11CS186SLE');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTNH 2.9 GregTech Tool, Maintenance &amp; Prospecting Architect</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #090d16;
+            --bg-card: rgba(17, 24, 39, 0.88);
+            --bg-card-hover: rgba(30, 41, 59, 0.96);
+            --border-card: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(245, 158, 11, 0.4);
+            
+            --gold-primary: #f59e0b;
+            --gold-light: #fbbf24;
+            --gold-glow: rgba(245, 158, 11, 0.25);
+            
+            --cyan: #06b6d4;
+            --cyan-light: #22d3ee;
+            --purple: #a855f7;
+            --purple-light: #c084fc;
+            --green: #10b981;
+            --green-light: #34d399;
+            --red: #ef4444;
+            --red-light: #f87171;
+            --blue: #3b82f6;
+            --blue-light: #60a5fa;
+            
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --text-dim: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 85% 85%, rgba(6, 182, 212, 0.04) 0%, transparent 40%),
+                linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            padding: 24px;
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .brand-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            color: var(--gold-light);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            margin-bottom: 12px;
+            letter-spacing: 0.05em;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.3rem;
+            font-weight: 900;
+            letter-spacing: 0.03em;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            max-width: 800px;
+            margin: 0 auto 20px auto;
+            line-height: 1.5;
+        }
+
+        /* Nav Tabs */
+        .tab-bar {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+
+        .tab-btn {
+            background: rgba(17, 24, 39, 0.7);
+            border: 1px solid var(--border-card);
+            color: var(--text-muted);
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 0.88rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+            background: rgba(30, 41, 59, 0.8);
+        }
+
+        .tab-btn.active {
+            color: #000;
+            background: var(--gold-primary);
+            border-color: var(--gold-light);
+            font-weight: 700;
+            box-shadow: 0 0 15px var(--gold-glow);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Age Selector Bar */
+        .age-selector-bar {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            padding: 14px 20px;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .age-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--gold-light);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .age-pill-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .age-pill {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .age-pill:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .age-pill.active {
+            background: var(--gold-primary);
+            color: #000;
+            font-weight: 800;
+            border-color: var(--gold-light);
+            box-shadow: 0 0 10px var(--gold-glow);
+        }
+
+        /* Section Banners */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: linear-gradient(90deg, rgba(245, 158, 11, 0.12) 0%, rgba(15, 23, 42, 0.6) 100%);
+            border-left: 4px solid var(--gold-primary);
+            border-radius: 8px;
+            padding: 14px 20px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .section-header.specialized {
+            background: linear-gradient(90deg, rgba(168, 85, 247, 0.12) 0%, rgba(15, 23, 42, 0.6) 100%);
+            border-left-color: var(--purple-light);
+        }
+
+        .section-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.15rem;
+            font-weight: 800;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-desc {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .master-select-box {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--gold-primary);
+            padding: 6px 14px;
+            border-radius: 8px;
+        }
+
+        .master-select-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: var(--gold-light);
+        }
+
+        /* Tool Grid */
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .tool-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 10px;
+            padding: 16px;
+            transition: all 0.2s ease;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .tool-card:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+            transform: translateY(-2px);
+        }
+
+        .tool-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .tool-icon {
+            font-size: 1.6rem;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-card);
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            flex-shrink: 0;
+        }
+
+        .tool-name-group {
+            flex: 1;
+        }
+
+        .tool-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 2px;
+        }
+
+        .tool-category {
+            font-size: 0.72rem;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--cyan-light);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .selector-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .mat-select {
+            width: 100%;
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 7px 10px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 12px;
+            outline: none;
+        }
+
+        .mat-select:focus {
+            border-color: var(--gold-primary);
+        }
+
+        /* Stats HUD */
+        .stats-hud {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            padding: 8px;
+            margin-bottom: 12px;
+            text-align: center;
+        }
+
+        .stat-item .val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.88rem;
+            font-weight: 800;
+            color: var(--gold-light);
+        }
+
+        .stat-item .lbl {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-top: 1px;
+        }
+
+        .badge-special {
+            color: var(--purple-light) !important;
+        }
+
+        .badge-green {
+            color: var(--green-light) !important;
+        }
+
+        .badge-cyan {
+            color: var(--cyan-light) !important;
+        }
+
+        .tool-tip-box {
+            background: rgba(255, 255, 255, 0.03);
+            border-left: 2px solid var(--gold-primary);
+            padding: 8px 10px;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.78rem;
+            line-height: 1.4;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .cost-tag {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            color: var(--text-dim);
+            border-top: 1px dashed rgba(255, 255, 255, 0.08);
+            padding-top: 8px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 3x3 Crafting Grid Visualizer */
+        .crafting-grid-visual {
+            display: inline-grid;
+            grid-template-columns: repeat(3, 26px);
+            grid-template-rows: repeat(3, 26px);
+            gap: 2px;
+            background: #050811;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 4px;
+            padding: 3px;
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.8);
+            flex-shrink: 0;
+        }
+
+        .craft-slot {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--text-dim);
+            user-select: none;
+        }
+
+        .craft-slot.active-ingot {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: var(--gold-primary);
+            color: var(--gold-light);
+        }
+
+        .craft-slot.active-plate {
+            background: rgba(6, 182, 212, 0.2);
+            border-color: var(--cyan-light);
+            color: var(--cyan-light);
+        }
+
+        .craft-slot.active-rod {
+            background: rgba(168, 85, 247, 0.2);
+            border-color: var(--purple-light);
+            color: var(--purple-light);
+        }
+
+        .craft-slot.active-tool {
+            background: rgba(239, 68, 68, 0.2);
+            border-color: var(--red-light);
+            color: var(--red-light);
+        }
+
+        .craft-slot.active-screw {
+            background: rgba(16, 185, 129, 0.2);
+            border-color: var(--green-light);
+            color: var(--green-light);
+        }
+
+        /* Maintenance Solver Tab */
+        .solver-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+        }
+
+        .diag-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 12px;
+            margin: 16px 0;
+        }
+
+        .diag-btn {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-main);
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .diag-btn:hover {
+            border-color: var(--red-light);
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        .diag-btn.active {
+            border-color: var(--red);
+            background: rgba(239, 68, 68, 0.2);
+            font-weight: 700;
+        }
+
+        .solution-box {
+            background: rgba(16, 185, 129, 0.08);
+            border: 1px solid var(--green);
+            border-radius: 8px;
+            padding: 16px;
+            margin-top: 16px;
+        }
+
+        /* Radar Tab Layout */
+        .radar-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 960px) {
+            .radar-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .radar-grid-wrapper {
+            background: #050811;
+            border: 1px solid var(--cyan);
+            border-radius: 10px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .radar-controls {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+            justify-content: center;
+        }
+
+        .radar-btn {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            color: var(--cyan-light);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .radar-btn:hover, .radar-btn.active {
+            background: var(--cyan);
+            color: #000;
+            border-color: var(--cyan-light);
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
+        }
+
+        .radar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 44px);
+            grid-template-rows: repeat(7, 44px);
+            gap: 3px;
+            margin: 10px 0;
+        }
+
+        .chunk-cell {
+            background: rgba(15, 23, 42, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.62rem;
+            cursor: pointer;
+            transition: all 0.15s;
+            position: relative;
+        }
+
+        .chunk-cell:hover {
+            border-color: var(--gold-light);
+            background: rgba(245, 158, 11, 0.2);
+        }
+
+        .chunk-cell.vein-block {
+            background: rgba(245, 158, 11, 0.18);
+            border-color: rgba(245, 158, 11, 0.4);
+        }
+
+        .chunk-cell.vein-center {
+            background: rgba(245, 158, 11, 0.45);
+            border-color: var(--gold-primary);
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .chunk-cell.scanned {
+            background: rgba(16, 185, 129, 0.35);
+            border-color: var(--green-light);
+        }
+
+        .chunk-cell.player-pos {
+            box-shadow: 0 0 12px var(--cyan-light);
+            border-color: #fff;
+            font-weight: 800;
+            color: #fff;
+            background: var(--cyan);
+            color: #000 !important;
+        }
+
+        /* Table formatting */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            margin-top: 12px;
+        }
+
+        .data-table th {
+            background: rgba(15, 23, 42, 0.9);
+            color: var(--gold-light);
+            text-align: left;
+            padding: 10px 12px;
+            border-bottom: 2px solid var(--border-card);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+        }
+
+        .data-table td {
+            padding: 10px 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        .data-table tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.72rem;
+            font-weight: 700;
+        }
+
+        .badge-gold { background: rgba(245, 158, 11, 0.2); color: var(--gold-light); }
+        .badge-purple { background: rgba(168, 85, 247, 0.2); color: var(--purple-light); }
+        .badge-cyan { background: rgba(6, 182, 212, 0.2); color: var(--cyan-light); }
+        .badge-green { background: rgba(16, 185, 129, 0.2); color: var(--green-light); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="brand-badge">⚡ GREGTECH 5 UNOFFICIAL • GTNH 2.9 OFFICIAL CODEX</div>
+        <h1>GREGTECH TOOL, MAINTENANCE & PROSPECTING ARCHITECT</h1>
+        <p class="subtitle">Interactive tool crafting workbench with unified workshop metal selection, multiblock maintenance diagnostic solver, visual multi-vein prospector radar optimizer, and deep game-code codex.</p>
+        
+        <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab('workbench', this)">🛠️ Interactive Tool Workbench</button>
+            <button class="tab-btn" onclick="switchTab('maintenance', this)">🧰 Multiblock Maintenance Solver</button>
+            <button class="tab-btn" onclick="switchTab('radar', this)">📡 Prospector's Scanner Radar</button>
+            <button class="tab-btn" onclick="switchTab('electric', this)">⚡ Electric & Multi-Tools</button>
+            <button class="tab-btn" onclick="switchTab('codex', this)">📖 Code Mechanics & Recipes</button>
+        </div>
+    </header>
+
+    <!-- TAB 1: WORKBENCH -->
+    <div id="tab-workbench" class="tab-content active">
+        <!-- Age Selector -->
+        <div class="age-selector-bar">
+            <span class="age-label">Progression Age:</span>
+            <div class="age-pill-group">
+                <button class="age-pill" onclick="selectAge('00-S', this)">00-S (Stone Age)</button>
+                <button class="age-pill active" onclick="selectAge('01-STM', this)">01-STM (Bronze & Steam)</button>
+                <button class="age-pill" onclick="selectAge('02-LV', this)">02-LV (Early Tech & Twilight)</button>
+                <button class="age-pill" onclick="selectAge('03-MV', this)">03-MV/HV (Mid Game & Magic)</button>
+                <button class="age-pill" onclick="selectAge('04-EV', this)">04-EV+ (Late Tech & HSS)</button>
+                <button class="age-pill" onclick="selectAge('05-END', this)">05-END (Endgame / Space)</button>
+            </div>
+        </div>
+
+        <!-- SECTION 1: UNIFIED WORKSHOP TOOLS -->
+        <div class="section-header">
+            <div>
+                <div class="section-title">🛠️ Standard Workshop Toolkit</div>
+                <div class="section-desc">Core crafting & in-world tools. Change the Primary Workshop Metal below to update all standard tools simultaneously.</div>
+            </div>
+            <div class="master-select-box">
+                <span class="master-select-label">PRIMARY WORKSHOP METAL:</span>
+                <select id="master-mat-select" class="mat-select" style="width: auto; margin-bottom: 0;" onchange="onMasterMatChange(this.value)">
+                    <!-- Populated by JS -->
+                </select>
+            </div>
+        </div>
+
+        <div id="standard-tool-grid" class="tool-grid">
+            <!-- Rendered by JS -->
+        </div>
+
+        <!-- SECTION 2: SPECIALIZED TOOLS -->
+        <div class="section-header specialized">
+            <div>
+                <div class="section-title">🪵 Specialized & Unique Mechanic Tools</div>
+                <div class="section-desc">Tools with unique material constraints (soft-only mallets, looting scaling, radar ranges, food-safe kitchen tools).</div>
+            </div>
+        </div>
+
+        <div id="specialized-tool-grid" class="tool-grid">
+            <!-- Rendered by JS -->
+        </div>
+    </div>
+
+    <!-- TAB 2: MAINTENANCE SOLVER -->
+    <div id="tab-maintenance" class="tab-content">
+        <div class="solver-card">
+            <h2 style="font-family: 'Cinzel', serif; font-size: 1.4rem; color: #fff; margin-bottom: 6px;">🩺 Instant Multiblock Maintenance Solver</h2>
+            <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 16px;">Click the exact maintenance error message displayed on your multiblock controller to see the required tool, material cost, and execution steps.</p>
+            
+            <div class="diag-grid">
+                <button class="diag-btn" onclick="diagnoseIssue('pipes', this)">💧 <strong>"Pipes are loose."</strong></button>
+                <button class="diag-btn" onclick="diagnoseIssue('screws', this)">🪛 <strong>"Screws are loose."</strong></button>
+                <button class="diag-btn" onclick="diagnoseIssue('circuit', this)">🔌 <strong>"Cannot calculate circuits."</strong></button>
+                <button class="diag-btn" onclick="diagnoseIssue('rotor', this)">⛏️ <strong>"Something is stuck."</strong></button>
+                <button class="diag-btn" onclick="diagnoseIssue('plating', this)">🔨 <strong>"Platings are dented."</strong></button>
+                <button class="diag-btn" onclick="diagnoseIssue('mallet', this)">🪵 <strong>"Has Maintenance Issues (General)"</strong></button>
+            </div>
+
+            <div id="solver-result" class="solution-box">
+                <div style="font-weight: 700; color: var(--green-light); font-size: 1rem; margin-bottom: 6px;" id="sol-title">✅ Diagnostic Ready</div>
+                <div style="font-size: 0.88rem; color: var(--text-main); line-height: 1.5;" id="sol-body">Select an error above to reveal the precise GT tool and procedure.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 3: PROSPECTOR SCANNER RADAR -->
+    <div id="tab-radar" class="tab-content">
+        <div class="radar-container">
+            <div class="radar-grid-wrapper">
+                <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; margin-bottom: 8px;">
+                    <h3 style="font-family: 'Cinzel', serif; color: var(--cyan-light); font-size: 1.1rem;">📡 7x7 Multi-Vein Radar Simulator</h3>
+                    <span id="radar-badge-active" class="badge badge-cyan">3x3 Scanner</span>
+                </div>
+                
+                <p style="color: var(--text-dim); font-size: 0.78rem; text-align: center; margin-bottom: 10px;">Select a scanner tier and click any chunk on the grid (or choose a Strategy Preset) to test vein detection coverage.</p>
+                
+                <div class="radar-controls">
+                    <button class="radar-btn active" onclick="setRadarRange(1, '3x3 (Bronze / Manasteel)', this)">3x3 Scanner</button>
+                    <button class="radar-btn" onclick="setRadarRange(2, '5x5 (Steel / Knightmetal)', this)">5x5 Scanner</button>
+                    <button class="radar-btn" onclick="setRadarRange(3, '7x7 (Shadow Metal / Vibrant)', this)">7x7 Scanner</button>
+                </div>
+
+                <div class="radar-grid" id="radar-grid-cells">
+                    <!-- Populated by JS -->
+                </div>
+
+                <div style="display: flex; gap: 14px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; margin-top: 8px; flex-wrap: wrap; justify-content: center;">
+                    <span style="color: var(--gold-light);">■ 3x3 Vein (Gold)</span>
+                    <span style="color: var(--green-light);">■ Scanned Range (Green)</span>
+                    <span style="color: var(--cyan-light);">■ Player (Cyan)</span>
+                </div>
+            </div>
+
+            <div class="solver-card" style="margin-bottom: 0;">
+                <h3 style="font-family: 'Cinzel', serif; color: #fff; font-size: 1.15rem; margin-bottom: 12px;">🎯 Optimal Scanning Strategy Presets</h3>
+                
+                <div style="display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 14px;">
+                    <button class="radar-btn" style="border-color: var(--gold-primary); color: var(--gold-light);" onclick="applyRadarPreset('edge_3x3')">👑 3x3 Edge / Corner Scan (4 Veins!)</button>
+                    <button class="radar-btn" style="border-color: var(--purple-light); color: var(--purple-light);" onclick="applyRadarPreset('center_5x5')">⭐ 5x5 Center Scan (9 Veins!)</button>
+                    <button class="radar-btn" style="border-color: var(--red-light); color: var(--red-light);" onclick="applyRadarPreset('suboptimal_center')">❌ Blind 3x3 Center (1 Vein only)</button>
+                </div>
+
+                <div id="radar-strategy-hud" style="background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 14px; margin-bottom: 14px;">
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); text-align: center; gap: 8px; margin-bottom: 10px;">
+                        <div>
+                            <div id="stat-scanned-chunks" style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 800; color: var(--cyan-light);">9</div>
+                            <div style="font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase;">Chunks Scanned</div>
+                        </div>
+                        <div>
+                            <div id="stat-veins-hit" style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 800; color: var(--gold-light);">4</div>
+                            <div style="font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase;">Veins Reached</div>
+                        </div>
+                        <div>
+                            <div id="stat-avg-dura" style="font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; font-weight: 800; color: var(--red-light);">~45</div>
+                            <div style="font-size: 0.68rem; color: var(--text-dim); text-transform: uppercase;">Avg Dura Cost</div>
+                        </div>
+                    </div>
+                    <div id="radar-strategy-explanation" style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+                        <!-- Updated by JS -->
+                    </div>
+                </div>
+
+                <div style="font-size: 0.82rem; color: var(--text-muted); line-height: 1.5;">
+                    <p style="margin-bottom: 6px;">• <strong>Durability Degradation Rule</strong>: The scanner rolls a check per chunk. Misses consume <strong>3 durability</strong>; hits consume <strong>15 durability</strong>.</p>
+                    <p>• <strong>Bedrock Fluid Prospecting</strong>: Right-click bedrock directly to detect oil/gas reservoirs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 4: ELECTRIC TOOLS -->
+    <div id="tab-electric" class="tab-content">
+        <div class="solver-card">
+            <h2 style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: #fff; margin-bottom: 12px;">⚡ Electric Tool Multipliers & Crafting Behavior</h2>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Tier</th>
+                        <th>Speed Multiplier</th>
+                        <th>Durability Multiplier</th>
+                        <th>Crafting Table Behavior</th>
+                        <th>Recommended Battery</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="badge badge-cyan">LV (Tier 1)</span></td>
+                        <td><strong>2.0x</strong> Speed</td>
+                        <td><strong>1.0x</strong> Dura</td>
+                        <td>Consumes ~100 EU / craft (0 physical wear)</td>
+                        <td>Small Lithium Battery (100k EU)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-gold">MV (Tier 2)</span></td>
+                        <td><strong>3.0x</strong> Speed</td>
+                        <td><strong>2.0x</strong> Dura</td>
+                        <td>Consumes ~100 EU / craft (0 physical wear)</td>
+                        <td>Medium Lithium / Energy Crystal (400k EU)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="badge badge-purple">HV (Tier 3)</span></td>
+                        <td><strong>4.0x</strong> Speed</td>
+                        <td><strong>4.0x</strong> Dura</td>
+                        <td>Consumes ~100 EU / craft (0 physical wear)</td>
+                        <td>Large Lithium / Lapotron Crystal (1.6M EU)</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="margin-top: 20px; background: rgba(0,0,0,0.3); padding: 16px; border-radius: 8px; border-left: 3px solid var(--gold-primary); font-size: 0.85rem; line-height: 1.6; color: var(--text-muted);">
+                <strong style="color: #fff;">💡 Pocket Multitool (6-in-1 Master Toolbox):</strong><br>
+                Combines Wrench, Screwdriver, File, Wire Cutter, Crowbar, and Saw in a single inventory slot. In GregTech 5 Unofficial code, the Pocket Multitool receives a hardcoded <strong>4.0x durability multiplier</strong> over the sum of its component tools!
+            </div>
+        </div>
+    </div>
+
+    <!-- TAB 5: CODEX -->
+    <div id="tab-codex" class="tab-content">
+        <!-- Pam's Kitchen Equivalents Card -->
+        <div class="solver-card">
+            <h2 style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: #fff; margin-bottom: 12px;">📖 GregTech 5U & Pam's Kitchen Tool Equivalents</h2>
+            <div style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px;">
+                In GTNH, Pam's HarvestCraft tools require <strong>Stainless Steel</strong> (HV tier) to craft infinite durability versions. Before reaching HV, you use standard GregTech tools that take durability damage as direct kitchen replacements:
+            </div>
+
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Pam's HarvestCraft Tool</th>
+                        <th>GregTech Tool Equivalent</th>
+                        <th>GT Durability Cost</th>
+                        <th>HV Permanent Unbreakable Version</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Cutting Board</strong></td>
+                        <td>GT Butchery Knife / Knife</td>
+                        <td>1 Durability per slice</td>
+                        <td>Craft with 1x Stainless Steel Plate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Bakeware</strong></td>
+                        <td>GT Rolling Pin</td>
+                        <td>1 Durability per dough roll</td>
+                        <td>Craft with 1x Stainless Steel Plate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mortar and Pestle</strong></td>
+                        <td>GT Mortar</td>
+                        <td>1 Durability per grind</td>
+                        <td>Craft with 1x Stainless Steel Ingot</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Juicer</strong></td>
+                        <td>GT Soft Mallet</td>
+                        <td>1 Durability per juice squeeze</td>
+                        <td>Craft with 1x Stainless Steel Plate</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pot / Saucepan / Mixing Bowl</strong></td>
+                        <td>None (Crafted Directly)</td>
+                        <td>0 (Indestructible from Start)</td>
+                        <td>Craftable in Stone/Steam Age directly</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Master Tool Pro-Tips & Game Mechanics Grid -->
+        <div class="solver-card">
+            <h2 style="font-family: 'Cinzel', serif; font-size: 1.3rem; color: #fff; margin-bottom: 12px;">⚡ Tool Deep-Dive: Code Mechanics, Visual 3×3 Recipes & Pro-Tips</h2>
+            <div style="font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; margin-bottom: 16px;">
+                Every GregTech tool features unique game-engine mechanics and crafting recipes hardcoded in GregTech 5 Unofficial. Below are the verified 3×3 crafting table layouts and field mechanics:
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(380px, 1fr)); gap: 16px;">
+                <!-- Wrench -->
+                <div style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.4rem;">🔧</span>
+                            <div>
+                                <strong style="color: var(--gold-light); font-size: 1rem;">Wrench</strong>
+                                <div style="font-size: 0.72rem; color: var(--text-dim);">6 Ingots + Hammer</div>
+                            </div>
+                        </div>
+                        <!-- 3x3 Grid -->
+                        <div class="crafting-grid-visual" title="Wrench 3x3 Crafting Grid">
+                            <div class="craft-slot active-ingot" title="Ingot">I</div>
+                            <div class="craft-slot active-tool" title="Hard Hammer">🔨</div>
+                            <div class="craft-slot active-ingot" title="Ingot">I</div>
+                            <div class="craft-slot active-ingot" title="Ingot">I</div>
+                            <div class="craft-slot active-ingot" title="Ingot">I</div>
+                            <div class="craft-slot active-ingot" title="Ingot">I</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot active-ingot" title="Ingot">I</div>
+                            <div class="craft-slot"></div>
+                        </div>
+                    </div>
+                    <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; padding-left: 18px;">
+                        <li><strong>Instant Dismantle:</strong> Tool mining speed directly reduces machine dismantling time. Fast metals (Damascus Steel 8.0x, Shadow Metal 32.0x) pop machines off instantly.</li>
+                        <li><strong>Pipe IO Control:</strong> Right-click fluid/item pipes to open/close flow and configure directional outputs.</li>
+                        <li><strong>Multiblock Solver:</strong> Fixes "Pipe Loose" maintenance errors in 1 click.</li>
+                    </ul>
+                </div>
+
+                <!-- Hard Hammer -->
+                <div style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.4rem;">🔨</span>
+                            <div>
+                                <strong style="color: var(--gold-light); font-size: 1rem;">Hard Hammer (Forge Hammer)</strong>
+                                <div style="font-size: 0.72rem; color: var(--text-dim);">6 Ingots + 1 Stick (or Head + Stick)</div>
+                            </div>
+                        </div>
+                        <!-- 3x3 Grid -->
+                        <div class="crafting-grid-visual" title="Hard Hammer 3x3 Crafting Grid">
+                            <div class="craft-slot active-ingot" title="Ingot">I</div>
+                            <div class="craft-slot active-ingot" title="Ingot">I</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot active-ingot" title="Ingot">I</div>
+                            <div class="craft-slot active-ingot" title="Ingot">I</div>
+                            <div class="craft-slot active-rod" title="Stick">S</div>
+                            <div class="craft-slot active-ingot" title="Ingot">I</div>
+                            <div class="craft-slot active-ingot" title="Ingot">I</div>
+                            <div class="craft-slot"></div>
+                        </div>
+                    </div>
+                    <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; padding-left: 18px;">
+                        <li><strong>2x In-World Ore Doubler:</strong> Left-click placed raw ores in the world to break them into <strong>2x Crushed Ore</strong> before you ever build an electric Macerator!</li>
+                        <li><strong>Plate Forging:</strong> Crafts plates in the crafting table (2 Ingots + Hammer) before Steam/LV Bending Machines.</li>
+                        <li><strong>Perditio 32.0x Speed:</strong> Crafted with Perditio Infused Crystal gives 32.0x in-world crushing speed.</li>
+                    </ul>
+                </div>
+
+                <!-- Soft Mallet -->
+                <div style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.4rem;">🪵</span>
+                            <div>
+                                <strong style="color: var(--gold-light); font-size: 1rem;">Soft Mallet</strong>
+                                <div style="font-size: 0.72rem; color: var(--text-dim);">6 Soft Planks/Ingots + 1 Stick</div>
+                            </div>
+                        </div>
+                        <!-- 3x3 Grid -->
+                        <div class="crafting-grid-visual" title="Soft Mallet 3x3 Crafting Grid">
+                            <div class="craft-slot active-plate" title="Plank/Soft Ingot">P</div>
+                            <div class="craft-slot active-plate" title="Plank/Soft Ingot">P</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot active-plate" title="Plank/Soft Ingot">P</div>
+                            <div class="craft-slot active-plate" title="Plank/Soft Ingot">P</div>
+                            <div class="craft-slot active-rod" title="Stick">S</div>
+                            <div class="craft-slot active-plate" title="Plank/Soft Ingot">P</div>
+                            <div class="craft-slot active-plate" title="Plank/Soft Ingot">P</div>
+                            <div class="craft-slot"></div>
+                        </div>
+                    </div>
+                    <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; padding-left: 18px;">
+                        <li><strong>Zero-Power Machine Toggle:</strong> Right-click any GregTech machine or multiblock controller to pause/resume operation without cutting power cables.</li>
+                        <li><strong>Casing-Safe Rule:</strong> Restricted strictly to soft materials (Wood, Rubber, Polyethylene, Steeleaf) so it won't dent or damage casings.</li>
+                        <li><strong>Steeleaf MVP:</strong> Steeleaf mallets receive a massive <strong>614.4k durability</strong>!</li>
+                    </ul>
+                </div>
+
+                <!-- Hand Saw -->
+                <div style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.4rem;">🪚</span>
+                            <div>
+                                <strong style="color: var(--gold-light); font-size: 1rem;">Hand Saw</strong>
+                                <div style="font-size: 0.72rem; color: var(--text-dim);">Saw Head (2 Plates + File + Hammer) + Stick</div>
+                            </div>
+                        </div>
+                        <!-- 3x3 Grid (Saw Head Recipe) -->
+                        <div class="crafting-grid-visual" title="Saw Head Recipe: 2 Plates + File + Hammer">
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot active-tool" title="File">🗜️</div>
+                            <div class="craft-slot active-tool" title="Hammer">🔨</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot"></div>
+                        </div>
+                    </div>
+                    <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; padding-left: 18px;">
+                        <li><strong>Wood Multiplier (Crafting Table):</strong> Crafting logs without a saw yields only 2 planks; crafting 1 Log + 1 GT Hand Saw in the grid yields <strong>4 planks + 2 wood pulp/dust</strong>.</li>
+                        <li><strong>IC2 Rubber Wood to Pulp:</strong> Saws down IC2 rubber wood logs into planks + pulp for paper, biomass, and early industrial carbon recipes.</li>
+                        <li><strong>GT Tool Damage Rule:</strong> Takes 1 durability per log processed. Making a durable Hand Saw (e.g. Bronze or Steel) secures high wood and pulp yields throughout Steam/LV.</li>
+                    </ul>
+                </div>
+
+                <!-- File -->
+                <div style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.4rem;">🗜️</span>
+                            <div>
+                                <strong style="color: var(--gold-light); font-size: 1rem;">File</strong>
+                                <div style="font-size: 0.72rem; color: var(--text-dim);">2 Plates + 1 Stick (Vertical Column)</div>
+                            </div>
+                        </div>
+                        <!-- 3x3 Grid -->
+                        <div class="crafting-grid-visual" title="File 3x3 Crafting Grid">
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot active-rod" title="Stick">S</div>
+                            <div class="craft-slot"></div>
+                        </div>
+                    </div>
+                    <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; padding-left: 18px;">
+                        <li><strong>#1 Consumed Tool:</strong> Used across hundreds of crafting recipes to file down plates into rods, bolts, and screws.</li>
+                        <li><strong>Instant Speed:</strong> Crafting grid recipes take 0 seconds: prioritize maximum durability per cost (e.g. Manasteel with 512,000 durability).</li>
+                    </ul>
+                </div>
+
+                <!-- Screwdriver -->
+                <div style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.4rem;">🪛</span>
+                            <div>
+                                <strong style="color: var(--gold-light); font-size: 1rem;">Screwdriver</strong>
+                                <div style="font-size: 0.72rem; color: var(--text-dim);">2 Metal Rods + 1 Stick + File + Hammer</div>
+                            </div>
+                        </div>
+                        <!-- 3x3 Grid -->
+                        <div class="crafting-grid-visual" title="Screwdriver 3x3 Crafting Grid">
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot active-tool" title="File">🗜️</div>
+                            <div class="craft-slot active-rod" title="Metal Rod">R</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot active-rod" title="Metal Rod">R</div>
+                            <div class="craft-slot active-tool" title="Hammer">🔨</div>
+                            <div class="craft-slot active-rod" title="Stick">S</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot"></div>
+                        </div>
+                    </div>
+                    <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; padding-left: 18px;">
+                        <li><strong>Cover Adjuster:</strong> Shift/Right-click side covers (fluid regulators, robotic arms, conveyor belts) to adjust transfer rates.</li>
+                        <li><strong>Multiblock Fix:</strong> Solves "Loose Screws" maintenance errors in 1 click.</li>
+                    </ul>
+                </div>
+
+                <!-- Wire Cutter -->
+                <div style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.4rem;">✂️</span>
+                            <div>
+                                <strong style="color: var(--gold-light); font-size: 1rem;">Wire Cutter</strong>
+                                <div style="font-size: 0.72rem; color: var(--text-dim);">3 Plates + 2 Rods + 1 Screw + Tools</div>
+                            </div>
+                        </div>
+                        <!-- 3x3 Grid -->
+                        <div class="crafting-grid-visual" title="Wire Cutter 3x3 Crafting Grid">
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot active-tool" title="File">🗜️</div>
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot active-tool" title="Hammer">🔨</div>
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot active-tool" title="Screwdriver">🪛</div>
+                            <div class="craft-slot active-rod" title="Rod">R</div>
+                            <div class="craft-slot active-screw" title="Screw">T</div>
+                            <div class="craft-slot active-rod" title="Rod">R</div>
+                        </div>
+                    </div>
+                    <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; padding-left: 18px;">
+                        <li><strong>Live Grid Disconnect:</strong> Right-clicking a cable connection connects/disconnects power routing safely without breaking the cable block or taking shock damage.</li>
+                        <li><strong>Wire Stripping:</strong> Strips rubber/foil insulation off wires in the crafting table.</li>
+                        <li><strong>Plate Cutting:</strong> Splits metal plates into single wires before Wiremills are automated.</li>
+                    </ul>
+                </div>
+
+                <!-- Crowbar -->
+                <div style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.4rem;">⛏️</span>
+                            <div>
+                                <strong style="color: var(--gold-light); font-size: 1rem;">Crowbar</strong>
+                                <div style="font-size: 0.72rem; color: var(--text-dim);">3 Metal Rods + 3 Blue Dye + Tools</div>
+                            </div>
+                        </div>
+                        <!-- 3x3 Grid -->
+                        <div class="crafting-grid-visual" title="Crowbar 3x3 Crafting Grid">
+                            <div class="craft-slot active-tool" title="Hammer">🔨</div>
+                            <div class="craft-slot active-screw" title="Blue Dye">🔵</div>
+                            <div class="craft-slot active-rod" title="Rod">R</div>
+                            <div class="craft-slot active-screw" title="Blue Dye">🔵</div>
+                            <div class="craft-slot active-rod" title="Rod">R</div>
+                            <div class="craft-slot active-screw" title="Blue Dye">🔵</div>
+                            <div class="craft-slot active-rod" title="Rod">R</div>
+                            <div class="craft-slot active-screw" title="Blue Dye">🔵</div>
+                            <div class="craft-slot active-tool" title="File">🗜️</div>
+                        </div>
+                    </div>
+                    <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; padding-left: 18px;">
+                        <li><strong>Cover Removal:</strong> Sneak-right click removes attached machine covers (pumps, shutters, conveyors) without breaking the machine block.</li>
+                        <li><strong>Track Dismounting:</strong> Rapidly dismantles Railcraft tracks and switches.</li>
+                    </ul>
+                </div>
+
+                <!-- Butchery Knife -->
+                <div style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.4rem;">🥩</span>
+                            <div>
+                                <strong style="color: var(--gold-light); font-size: 1rem;">Butchery Knife</strong>
+                                <div style="font-size: 0.72rem; color: var(--text-dim);">4 Plates + 1 Rod + Tools</div>
+                            </div>
+                        </div>
+                        <!-- 3x3 Grid -->
+                        <div class="crafting-grid-visual" title="Butchery Knife 3x3 Crafting Grid">
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot active-tool" title="File">🗜️</div>
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot active-rod" title="Rod">R</div>
+                            <div class="craft-slot active-tool" title="Hammer">🔨</div>
+                            <div class="craft-slot"></div>
+                        </div>
+                    </div>
+                    <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; padding-left: 18px;">
+                        <li><strong>Anti-Explosion Looting:</strong> Applies GT's <code>⌊(2 + ToolQuality) / 2⌋</code> formula, preventing passive animals from exploding on death and maximizing drop counts.</li>
+                        <li><strong>Pam's Cutting Board:</strong> Direct equivalent to Pam's Cutting Board in the kitchen grid.</li>
+                    </ul>
+                </div>
+
+                <!-- Plunger -->
+                <div style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.4rem;">🪠</span>
+                            <div>
+                                <strong style="color: var(--gold-light); font-size: 1rem;">Plunger</strong>
+                                <div style="font-size: 0.72rem; color: var(--text-dim);">3 Rubber Plates + 2 Rods + Tools</div>
+                            </div>
+                        </div>
+                        <!-- 3x3 Grid -->
+                        <div class="crafting-grid-visual" title="Plunger 3x3 Crafting Grid">
+                            <div class="craft-slot active-tool" title="Wire Cutter">✂️</div>
+                            <div class="craft-slot active-plate" title="Rubber Plate">R</div>
+                            <div class="craft-slot active-plate" title="Rubber Plate">R</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot active-rod" title="Rod">S</div>
+                            <div class="craft-slot active-plate" title="Rubber Plate">R</div>
+                            <div class="craft-slot active-rod" title="Rod">S</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot active-tool" title="File">🗜️</div>
+                        </div>
+                    </div>
+                    <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; padding-left: 18px;">
+                        <li><strong>Smeltery Drain Fix:</strong> Right-click any Tinkers' Smeltery Drain to purge annoying 10-80 mB leftover molten metal residue that blocks new alloys!</li>
+                        <li><strong>Tank Flushing:</strong> Shift-right-click any tank or machine fluid buffer to dump 100% of trapped liquid instantly.</li>
+                    </ul>
+                </div>
+
+                <!-- Soldering Iron (LV) -->
+                <div style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.4rem;">🔌</span>
+                            <div>
+                                <strong style="color: var(--gold-light); font-size: 1rem;">Soldering Iron (LV)</strong>
+                                <div style="font-size: 0.72rem; color: var(--text-dim);">LV Battery + Bolt + Iron Rod + Rubber Plate</div>
+                            </div>
+                        </div>
+                        <!-- 3x3 Grid -->
+                        <div class="crafting-grid-visual" title="Soldering Iron 3x3 Crafting Grid">
+                            <div class="craft-slot active-screw" title="LV Battery">🔋</div>
+                            <div class="craft-slot active-screw" title="Bolt">B</div>
+                            <div class="craft-slot active-tool" title="File">🗜️</div>
+                            <div class="craft-slot active-rod" title="Iron Rod">R</div>
+                            <div class="craft-slot active-tool" title="Screwdriver">🪛</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot active-plate" title="Rubber Plate">P</div>
+                            <div class="craft-slot"></div>
+                            <div class="craft-slot"></div>
+                        </div>
+                    </div>
+                    <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; padding-left: 18px;">
+                        <li><strong>Fine Wire Efficiency:</strong> Always use <em>Fine Soldering Alloy Wire</em> in your toolbox instead of full ingots—it gives 4x material conservation per repair!</li>
+                        <li><strong>Multiblock Auto-Fix:</strong> Fixes "Circuitry Burnt" maintenance errors instantly.</li>
+                    </ul>
+                </div>
+
+                <!-- Prospector Scanner -->
+                <div style="background: rgba(15,23,42,0.85); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 16px;">
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                        <div style="display: flex; align-items: center; gap: 8px;">
+                            <span style="font-size: 1.4rem;">📡</span>
+                            <div>
+                                <strong style="color: var(--gold-light); font-size: 1rem;">Prospector Scanner</strong>
+                                <div style="font-size: 0.72rem; color: var(--text-dim);">Plates + Rods + Redstone</div>
+                            </div>
+                        </div>
+                        <!-- 3x3 Grid -->
+                        <div class="crafting-grid-visual" title="Prospector Scanner 3x3 Crafting Grid">
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot active-rod" title="Rod">R</div>
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot active-rod" title="Rod">R</div>
+                            <div class="craft-slot active-screw" title="Redstone">🔴</div>
+                            <div class="craft-slot active-rod" title="Rod">R</div>
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                            <div class="craft-slot active-rod" title="Rod">R</div>
+                            <div class="craft-slot active-plate" title="Plate">P</div>
+                        </div>
+                    </div>
+                    <ul style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; padding-left: 18px;">
+                        <li><strong>Vein Boundary Trick:</strong> Click chunk corners with 3x3 / 5x5 Prospector Scanners to detect 4 to 9 veins simultaneously from a single scan location.</li>
+                        <li><strong>Bedrock Fluid Wells:</strong> Right-click bedrock blocks directly to locate infinite underground oil, gas, and salt water fields.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const MATERIALS = [{"name": "Flint", "tier": "00-S", "dura": 12800, "speed": 2.5, "quality": 1, "gate": "Stone Age (Gravel)", "isSoft": false, "isMetal": false, "notes": "Earliest accessible tool material."}, {"name": "Wood", "tier": "00-S", "dura": 1600, "malletDura": 12800, "rollingDura": 1600, "speed": 1.0, "quality": 0, "gate": "Stone Age (Trees)", "isSoft": true, "isMetal": false, "notes": "Craftable minute 1."}, {"name": "Stone", "tier": "00-S", "dura": 3200, "speed": 1.5, "quality": 1, "gate": "Stone Age (Cobble)", "isSoft": false, "isMetal": false, "notes": "Earliest in-world hammer crusher."}, {"name": "Sealed Wood", "tier": "01-STM", "dura": 4800, "malletDura": 19200, "speed": 1.0, "quality": 0, "gate": "Steam / Creosote", "isSoft": true, "isMetal": false, "notes": "Treated with creosote."}, {"name": "Rubber", "tier": "01-STM", "dura": 16000, "malletDura": 25600, "speed": 1.0, "quality": 0, "gate": "Steam (Resin Smelting)", "isSoft": true, "isMetal": false, "notes": "Cheap 25.6k durability soft mallet."}, {"name": "Bronze", "tier": "01-STM", "dura": 19200, "speed": 6.0, "quality": 2, "gate": "Steam / Smeltery", "isSoft": false, "isMetal": true, "notes": "Primary steam-age casting metal."}, {"name": "Iron", "tier": "01-STM", "dura": 25600, "speed": 6.0, "quality": 2, "gate": "Steam / Smeltery", "isSoft": false, "isMetal": true, "notes": "Higher durability than bronze."}, {"name": "Wrought Iron", "tier": "01-STM", "dura": 38400, "speed": 6.0, "quality": 2, "gate": "Steam Bloomery", "isSoft": false, "isMetal": true, "notes": "+50% durability over basic iron."}, {"name": "Polyethylene", "tier": "02-LV", "dura": 12800, "malletDura": 25600, "rollingDura": 3200, "speed": 1.0, "quality": 0, "gate": "LV Chemical Reactor", "isSoft": true, "isMetal": false, "notes": "Standard industrial polymer."}, {"name": "Aluminum", "tier": "02-LV", "dura": 12800, "rollingDura": 12800, "speed": 8.0, "quality": 2, "gate": "LV EBF", "isSoft": false, "isMetal": true, "notes": "Lightweight metal."}, {"name": "Thaumium", "tier": "02-LV", "dura": 25600, "speed": 7.0, "quality": 3, "gate": "Thaumcraft Crucible", "isSoft": false, "isMetal": true, "notes": "Intrinsic Fortune I / Looting I & high enchantability."}, {"name": "Ironwood", "tier": "02-LV", "dura": 51200, "malletDura": 307200, "rollingDura": 38400, "speed": 6.0, "quality": 2, "gate": "Twilight Forest Crafting", "isSoft": true, "isMetal": true, "notes": "307k soft mallet dura; crafted with Iron + Gold + Liverroot."}, {"name": "Steel", "tier": "02-LV", "dura": 51200, "speed": 6.0, "quality": 3, "gate": "Primitive Blast Furnace / EBF", "isSoft": false, "isMetal": true, "notes": "Unlocks Tier 3 mining & Looting II."}, {"name": "Steeleaf", "tier": "02-LV", "dura": 102400, "malletDura": 614400, "speed": 7.0, "quality": 3, "gate": "Twilight Forest Chests / Craft", "isSoft": true, "isMetal": true, "notes": "\ud83d\udc51 614.4k soft mallet dura! 100k standard dura with NO blast furnace needed."}, {"name": "Perditio", "tier": "02-LV", "dura": 4800, "speed": 32.0, "quality": 3, "gate": "Entropy Infused Stone (Twilight/Crucible)", "isSoft": false, "isMetal": true, "notes": "\ud83d\udc51 32.0x Mining Speed! Glass cannon head for blistering excavation."}, {"name": "Knightmetal", "tier": "02-LV", "dura": 128000, "speed": 7.0, "quality": 3, "gate": "Twilight Stronghold", "isSoft": false, "isMetal": true, "notes": "High armor penetration & 3x3 prospector radar."}, {"name": "Manasteel", "tier": "02-LV", "dura": 512000, "speed": 8.0, "quality": 4, "gate": "Botania Mana Pool", "isSoft": false, "isMetal": true, "notes": "\ud83d\udc51 Early MVP! 512k durability for 1 iron ingot. Unlocks Looting III."}, {"name": "Stainless Steel", "tier": "03-MV", "dura": 48000, "rollingDura": 48000, "speed": 7.0, "quality": 3, "gate": "HV EBF Cleanroom", "isSoft": false, "isMetal": true, "notes": "Unlocks infinite Pam's tools."}, {"name": "Void Metal", "tier": "03-MV", "dura": 51200, "speed": 32.0, "quality": 4, "gate": "Thaumcraft Void Line", "isSoft": false, "isMetal": true, "notes": "Blistering 32.0x mining speed; causes warp on use."}, {"name": "Black Steel", "tier": "03-MV", "dura": 76800, "speed": 6.5, "quality": 3, "gate": "MV EBF", "isSoft": false, "isMetal": true, "notes": "Tough composite steel."}, {"name": "Red Steel", "tier": "03-MV", "dura": 89600, "speed": 7.0, "quality": 3, "gate": "MV EBF", "isSoft": false, "isMetal": true, "notes": "High durability alloy."}, {"name": "Blue Steel", "tier": "03-MV", "dura": 102400, "speed": 7.5, "quality": 3, "gate": "MV EBF", "isSoft": false, "isMetal": true, "notes": "High wear resistance."}, {"name": "Vanadiumsteel", "tier": "03-MV", "dura": 192000, "speed": 3.0, "quality": 3, "gate": "MV Electric Blast Furnace", "isSoft": false, "isMetal": true, "notes": "192k durability for maintenance toolboxes (slow 3.0x speed)."}, {"name": "Damascus Steel", "tier": "03-MV", "dura": 128000, "speed": 8.0, "quality": 3, "gate": "MV EBF / Gaia", "isSoft": false, "isMetal": true, "notes": "Fast 8.0x speed for in-world block/machine dismantling."}, {"name": "Titanium", "tier": "03-MV", "dura": 153600, "speed": 9.0, "quality": 4, "gate": "HV Electric Blast Furnace", "isSoft": false, "isMetal": true, "notes": "HV milestone metal with high corrosion resistance."}, {"name": "Tungstensteel", "tier": "03-MV", "dura": 256000, "speed": 12.0, "quality": 4, "gate": "HV Kanthal/Nichrome EBF", "isSoft": false, "isMetal": true, "notes": "Heavy industrial workhorse with 12.0x speed."}, {"name": "Silicone Rubber", "tier": "03-MV", "dura": 51200, "malletDura": 102400, "speed": 1.0, "quality": 0, "gate": "MV Chemical Line", "isSoft": true, "isMetal": false, "notes": "High endurance heat-resistant polymer."}, {"name": "Shadow Metal", "tier": "03-MV", "dura": 819200, "speed": 32.0, "quality": 4, "gate": "Thaumcraft Void Infusion", "isSoft": false, "isMetal": true, "notes": "\ud83d\udc51 819k dura + 32.0x speed! Unlocks 7x7 prospector radar."}, {"name": "Vibrant Alloy", "tier": "04-EV", "dura": 404800, "speed": 18.0, "quality": 4, "gate": "Nichrome Coils EBF", "isSoft": false, "isMetal": true, "notes": "18.0x speed + 7x7 prospector radar."}, {"name": "HSS-G", "tier": "04-EV", "dura": 819200, "speed": 24.0, "quality": 5, "gate": "HSS-G EBF", "isSoft": false, "isMetal": true, "notes": "High-Speed Steel G grade (24.0x speed)."}, {"name": "HSS-E", "tier": "04-EV", "dura": 1024000, "speed": 32.0, "quality": 7, "gate": "HSS-G EBF / IV Mixer", "isSoft": false, "isMetal": true, "notes": "\ud83d\udc51 1.02M dura + 32.0x speed. Unlocks LOOTING IV on knife."}, {"name": "HSS-S", "tier": "04-EV", "dura": 1024000, "speed": 36.0, "quality": 7, "gate": "IV EBF Mixer", "isSoft": false, "isMetal": true, "notes": "Highest speed HSS tool steel (36.0x speed)."}, {"name": "Adamantium Alloy", "tier": "05-END", "dura": 10240000, "speed": 191.2, "quality": 5, "gate": "Naquadah Line, HSS-S Coils", "isSoft": false, "isMetal": true, "notes": "10.2M durability with 191.2 instantaneous breaking speed."}, {"name": "Ichorium", "tier": "05-END", "dura": 85000000, "speed": 32.0, "quality": 12, "gate": "Kami Thaumcraft", "isSoft": false, "isMetal": true, "notes": "\ud83d\udc51 85M dura! Unlocks LOOTING VII and 25x25 prospector radar."}, {"name": "Gaia Spirit", "tier": "05-END", "dura": 85000000, "malletDura": 680000000, "speed": 32.0, "quality": 10, "gate": "Botania Gaia Guardian II", "isSoft": true, "isMetal": true, "notes": "\ud83d\udc51 680M soft mallet durability! Peak endgame composite."}];
+    const STANDARD_TOOLS = [{"id": "wrench", "name": "Wrench", "icon": "\ud83d\udd27", "category": "Heavy Crafting & Machine", "cost": "6x Ingots + Hammer (IhI / III / I)", "useCase": "Machine rotation, dismantling, auto-IO direction, and heavy crafting (casings, plates, pipes).", "tip": "Wrenching is an in-world action: prioritize high mining speed (Damascus Steel, Shadow Metal) so machines dismantle instantly."}, {"id": "file", "name": "File", "icon": "\ud83d\udddc\ufe0f", "category": "Heavy Crafting", "cost": "2x Plates + 1x Stick (or 1x File Head + Stick)", "useCase": "The #1 consumed tool in the crafting table for making plates, rods, and screws.", "tip": "Crafting table speed is instantaneous. Maximize durability per cost: Manasteel (512k crafts) lasts for weeks of heavy crafting."}, {"id": "screwdriver", "name": "Screwdriver", "icon": "\ud83e\ude9b", "category": "Maintenance & Controls", "cost": "2x Metal Rods + 1x Handle Stick + File + Hammer", "useCase": "Multiblock maintenance ('Screws loose'), input bus separation, and machine cover adjustments.", "tip": "Keep one in your toolbox at all times. In LV, craft an LV Electric Screwdriver for infinite durability via battery recharge."}, {"id": "wirecutter", "name": "Wire Cutter", "icon": "\u2702\ufe0f", "category": "Electrical & Crafting", "cost": "3x Plates + 2x Rods + 1x Screw + File + Hammer + Screwdriver", "useCase": "Cuts wire from plates, strips insulated cables, and safely connects/disconnects live GT cable networks.", "tip": "Right-clicking a cable connection connects/disconnects power routing without breaking the cable block."}, {"id": "hammer", "name": "Hard Hammer / Forge Hammer", "icon": "\ud83d\udd28", "category": "In-World Crushing & Forge", "cost": "6x Ingots + 1x Stick (XX / XXS / XX pattern)", "useCase": "Left-click placed raw ores in-world for 2x crushed ore yield before Macerators; flattens plates and fixes dented casings.", "tip": "Crafted in Steam Age with 6 Bronze/Iron Ingots + 1 Stick. Essential for in-world ore doubling before electricity."}, {"id": "saw", "name": "Hand Saw", "icon": "\ud83e\ude9a", "category": "Wood Economy & Crops", "cost": "1x Saw Head (2x Plates + File + Hammer) + 1x Stick", "useCase": "Crucial Wood Multiplier: crafting logs without a saw gives only 2 planks; using a GT Saw yields 4 planks + 2 wood pulp/dust.", "tip": "Doubles your wood output in Steam age and prevents wood shortages. Also cleanly cuts IC2 rubber wood."}, {"id": "crowbar", "name": "Crowbar", "icon": "\u26cf\ufe0f", "category": "Dismantling & Covers", "cost": "3x Rods + 3x Blue Dye + Hammer + File", "useCase": "Dismounts Railcraft tracks, removes covers/hatches from machines, and fixes multiblock structural jams.", "tip": "Sneak-right click removes covers (pumps, shutters, conveyor belts) without having to break the entire machine block."}, {"id": "branchcutter", "name": "Branch Cutter", "icon": "\ud83c\udf3f", "category": "100% Sapling Drops", "cost": "4x Plates + 2x Rods + 1x Screw + File + Screwdriver", "useCase": "Guarantees 100% sapling drops from vanilla and Forestry trees; silk touches leaf blocks.", "tip": "Invaluable when breeding rare Forestry trees (Balsa, Teak, Kapok) to ensure zero lost mutations."}, {"id": "spade", "name": "Universal Spade / Shovel", "icon": "\ud83e\udd44", "category": "Terraforming & Earth", "cost": "1x Spade Head + 1x Stick (or 1x Plate + 1x Rod + 1x Screw)", "useCase": "High-speed excavation of clay, gravel, dirt, and sand; digs gravel for flint in Stone Age.", "tip": "Pairs with high-speed metals to clear foundation land for large multiblock factories in seconds."}];
+
+    let currentAge = '01-STM';
+    let currentMasterMat = 'Bronze';
+
+    // Age progression map
+    const AGE_RANK = {
+        '00-S': 0,
+        '01-STM': 1,
+        '02-LV': 2,
+        '03-MV': 3,
+        '04-EV': 4,
+        '05-END': 5
+    };
+
+    const DEFAULT_MASTER_MATS = {
+        '00-S': 'Flint',
+        '01-STM': 'Bronze',
+        '02-LV': 'Steel',
+        '03-MV': 'Tungstensteel',
+        '04-EV': 'HSS-E',
+        '05-END': 'Adamantium Alloy'
+    };
+
+    function getWorkshopMetalsUpToAge(age) {
+        const targetRank = AGE_RANK[age];
+        if (age === '00-S') {
+            return MATERIALS.filter(m => ['Flint', 'Stone'].includes(m.name));
+        }
+        // From Steam Age onwards, standard workshop tools strictly require metals (Plates, Screws, Rings)
+        return MATERIALS.filter(m => AGE_RANK[m.tier] <= targetRank && m.isMetal);
+    }
+
+    function getMaterialsUpToAge(age) {
+        const targetRank = AGE_RANK[age];
+        return MATERIALS.filter(m => AGE_RANK[m.tier] <= targetRank && !m.isSoft);
+    }
+
+    function getSoftMaterialsUpToAge(age) {
+        const targetRank = AGE_RANK[age];
+        return MATERIALS.filter(m => AGE_RANK[m.tier] <= targetRank && m.isSoft);
+    }
+
+    function getAllMaterialsUpToAge(age) {
+        const targetRank = AGE_RANK[age];
+        return MATERIALS.filter(m => AGE_RANK[m.tier] <= targetRank);
+    }
+
+    function switchTab(tabId, btn) {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    function selectAge(ageId, btn) {
+        document.querySelectorAll('.age-pill').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        currentAge = ageId;
+        currentMasterMat = DEFAULT_MASTER_MATS[ageId] || 'Bronze';
+        renderWorkbench();
+    }
+
+    function onMasterMatChange(matName) {
+        currentMasterMat = matName;
+        renderStandardTools();
+    }
+
+    function renderWorkbench() {
+        populateMasterDropdown();
+        renderStandardTools();
+        renderSpecializedTools();
+    }
+
+    function populateMasterDropdown() {
+        const select = document.getElementById('master-mat-select');
+        const available = getWorkshopMetalsUpToAge(currentAge);
+        select.innerHTML = '';
+        available.forEach(m => {
+            const opt = document.createElement('option');
+            opt.value = m.name;
+            opt.textContent = `${m.name} (${(m.dura).toLocaleString()} Dura • ${m.speed}x Spd)`;
+            if (m.name === currentMasterMat) opt.selected = true;
+            select.appendChild(opt);
+        });
+    }
+
+    function renderStandardTools() {
+        const container = document.getElementById('standard-tool-grid');
+        const mat = MATERIALS.find(m => m.name === currentMasterMat) || MATERIALS[0];
+        
+        // In Stone Age, standard workshop tools (Wrench, File, Screwdriver, Wire Cutter, Hammer, Saw, Crowbar, Spade) are locked because they require metal
+        const validTools = currentAge === '00-S' 
+            ? []
+            : STANDARD_TOOLS;
+        
+        let html = validTools.map(t => `
+            <div class="tool-card">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">${t.icon}</div>
+                        <div class="tool-name-group">
+                            <div class="tool-title">${t.name}</div>
+                            <div class="tool-category">${t.category}</div>
+                        </div>
+                    </div>
+
+                    <div class="stats-hud">
+                        <div class="stat-item">
+                            <div class="val">${(mat.dura).toLocaleString()}</div>
+                            <div class="lbl">Durability</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="val">${mat.speed}x</div>
+                            <div class="lbl">Mining Speed</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="val">Tier ${mat.quality}</div>
+                            <div class="lbl">Harvest Lvl</div>
+                        </div>
+                    </div>
+
+                    <div class="tool-tip-box">${t.tip}</div>
+                </div>
+
+                <div class="cost-tag">
+                    <span><strong>Cost:</strong> ${t.cost}</span>
+                    <span>${mat.name}</span>
+                </div>
+            </div>
+        `).join('');
+
+        if (currentAge === '00-S') {
+            html += `
+                <div class="tool-card" style="border-style: dashed; border-color: rgba(245,158,11,0.3); grid-column: 1 / -1; background: rgba(0,0,0,0.3);">
+                    <div style="font-size: 0.88rem; color: var(--gold-light); font-weight: 700; margin-bottom: 4px;">
+                        🔒 Metallic Tools Locked in Stone Age (Wrench, File, Screwdriver, Wire Cutter, Crowbar, Branch Cutter)
+                    </div>
+                    <div style="font-size: 0.8rem; color: var(--text-muted); line-height: 1.5;">
+                        In GregTech 5 Unofficial, tools requiring <strong>Plates, Screws, and Rings</strong> cannot be crafted from Flint or Cobblestone. Switch to <strong>01-STM (Bronze & Steam)</strong> to craft your first metal Wrench, File, Screwdriver, and Wire Cutter!
+                    </div>
+                </div>
+            `;
+        }
+
+        container.innerHTML = html;
+    }
+
+    function renderSpecializedTools() {
+        const container = document.getElementById('specialized-tool-grid');
+        
+        // 1. Soft Mallet Card (Requires Wood, Rubber, Polymers, or Soft Alloys)
+        const softMats = getSoftMaterialsUpToAge(currentAge);
+        const defSoft = (currentAge === '00-S') ? 'Wood' : (softMats.find(m => m.name === 'Steeleaf') ? 'Steeleaf' : softMats[softMats.length - 1].name);
+
+        // 2. Butchery Knife Card (Requires 4 Plates + 1 Rod -> Metals / Infused Crystals only, NO Stone or Flint)
+        const knifeMats = MATERIALS.filter(m => AGE_RANK[m.tier] <= AGE_RANK[currentAge] && (m.isMetal || m.name === 'Steeleaf' || m.name === 'Perditio'));
+        const isKnifeLocked = knifeMats.length === 0;
+        const defKnife = isKnifeLocked ? null : (knifeMats.find(m => m.name === 'Manasteel') ? 'Manasteel' : (knifeMats.find(m => m.name === 'Bronze') ? 'Bronze' : knifeMats[0].name));
+
+        // 3. Prospector Scanner Card (Requires Plates + Rods + Redstone -> Steam Age+ Metals, NO Stone or Flint)
+        const radMats = MATERIALS.filter(m => AGE_RANK[m.tier] <= AGE_RANK[currentAge] && (m.isMetal || m.name === 'Steeleaf' || m.name === 'Perditio'));
+        const isRadLocked = radMats.length === 0;
+        const defRad = isRadLocked ? null : (radMats.find(m => m.name === 'Shadow Metal') ? 'Shadow Metal' : (radMats.find(m => m.name === 'Bronze') ? 'Bronze' : radMats[0].name));
+
+        const rodMats = getAllMaterialsUpToAge(currentAge);
+
+        // 4. Plunger (Requires 3 Rubber Plates + 2 Rods -> Unlocks at 01-STM with Rubber; Rods are Wood, Iron, Bronze, Steel, etc., NO Stone/Flint)
+        const isPlungerLocked = AGE_RANK[currentAge] < 1;
+        const plungerRodMats = MATERIALS.filter(m => AGE_RANK[m.tier] <= AGE_RANK[currentAge] && (m.isMetal || m.name === 'Wood' || m.name === 'Ironwood' || m.name === 'Steeleaf' || m.name === 'Manasteel'));
+        const defPlunger = isPlungerLocked ? 'Wood' : (plungerRodMats.find(m => m.name === 'Iron') ? 'Iron' : (plungerRodMats.find(m => m.name === 'Wood') ? 'Wood' : plungerRodMats[0].name));
+
+        // 5. Soldering Iron Rod Mats (Unlocks strictly at 02-LV: Requires LV Battery + Rubber Plates + Rods)
+        const isSolderLocked = AGE_RANK[currentAge] < 2;
+        const solderMats = rodMats.filter(m => ['Iron', 'Wrought Iron', 'Steel', 'Stainless Steel', 'Tungstensteel'].includes(m.name) && AGE_RANK[m.tier] <= AGE_RANK[currentAge]);
+        const defSolder = isSolderLocked ? 'Iron' : (solderMats.find(m => m.name === 'Steel') ? 'Steel' : (solderMats[0] ? solderMats[0].name : 'Iron'));
+
+        // 6. Rolling Pin Mats (Wood in 00-S, Polyethylene, Aluminum, Ironwood, Stainless Steel, Tungstensteel -> strictly NO Flint or Cobblestone)
+        const rollMats = MATERIALS.filter(m => AGE_RANK[m.tier] <= AGE_RANK[currentAge] && ['Wood', 'Polyethylene', 'Aluminum', 'Ironwood', 'Stainless Steel', 'Tungstensteel', 'Steeleaf'].includes(m.name));
+        const defRoll = rollMats.find(m => m.name === 'Ironwood') ? 'Ironwood' : (rollMats.find(m => m.name === 'Wood') ? 'Wood' : rollMats[0].name);
+
+        // 7. Mortar Mats (Requires Plates/Ingots -> Steam Age+, or Stone in 00-S)
+        const mortMats = rodMats.filter(m => !m.isSoft);
+        const defMort = mortMats.find(m => m.name === 'Thaumium') ? 'Thaumium' : (mortMats.find(m => m.name === 'Bronze') ? 'Bronze' : mortMats[0].name);
+
+        container.innerHTML = `
+            <!-- SOFT MALLET -->
+            <div class="tool-card">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">🪵</div>
+                        <div class="tool-name-group">
+                            <div class="tool-title">Soft Mallet</div>
+                            <div class="tool-category">Machine Toggle & Juicer</div>
+                        </div>
+                    </div>
+
+                    <label class="selector-label">Soft Material Selector:</label>
+                    <select id="sel-softmallet" class="mat-select" onchange="updateSoftMalletCard(this.value)">
+                        ${softMats.map(m => `<option value="${m.name}" ${m.name === defSoft ? 'selected' : ''}>${m.name} (${((m.malletDura || m.dura)).toLocaleString()} Dura)</option>`).join('')}
+                    </select>
+
+                    <div id="hud-softmallet" class="stats-hud">
+                        <!-- Updated by JS -->
+                    </div>
+
+                    <div class="tool-tip-box">
+                        <strong>Soft-Only Material Rule:</strong> Restricted to elastomers, polymers, and wood to prevent casing damage. Toggles multiblocks/machines on/off instantly without power.
+                    </div>
+                </div>
+                <div class="cost-tag">
+                    <span><strong>Cost:</strong> 6 Soft Plates + 1 Rod</span>
+                    <span>Pam's Juicer Equiv</span>
+                </div>
+            </div>
+
+            <!-- BUTCHERY KNIFE -->
+            <div class="tool-card ${isKnifeLocked ? 'locked-card' : ''}">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">🥩</div>
+                        <div class="tool-name-group">
+                            <div class="tool-title">Butchery Knife</div>
+                            <div class="tool-category">Anti-Explosion & Meat Looting</div>
+                        </div>
+                    </div>
+
+                    ${isKnifeLocked ? `
+                        <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); padding: 12px; border-radius: 6px; margin: 12px 0;">
+                            <div style="color: var(--red-light); font-weight: 700; font-size: 0.85rem; margin-bottom: 4px;">🔒 Metal Plates Required (Steam Age+)</div>
+                            <div style="color: var(--text-muted); font-size: 0.78rem; line-height: 1.4;">GT Butchery Knife requires 4 Plates + 1 Rod + 2 Screws. Use a <em>Flint Knife</em> (1 Flint + 1 Stick) for Stone Age crafting.</div>
+                        </div>
+                    ` : `
+                        <label class="selector-label">Blade Material Selector:</label>
+                        <select id="sel-butchery" class="mat-select" onchange="updateButcheryCard(this.value)">
+                            ${knifeMats.map(m => `<option value="${m.name}" ${m.name === defKnife ? 'selected' : ''}>${m.name} (${(m.dura).toLocaleString()} Dura)</option>`).join('')}
+                        </select>
+
+                        <div id="hud-butchery" class="stats-hud">
+                            <!-- Updated by JS -->
+                        </div>
+                    `}
+
+                    <div class="tool-tip-box">
+                        <strong>GT Code Looting Formula:</strong> <code>⌊(2 + ToolQuality) / 2⌋</code>. Prevents passive animals from exploding on death and maximizes leather/meat drop yields.
+                    </div>
+                </div>
+                <div class="cost-tag">
+                    <span><strong>Cost:</strong> 4 Plates + 1 Rod + 2 Screws</span>
+                    <span>Pam's Cutting Board</span>
+                </div>
+            </div>
+
+            <!-- PROSPECTOR SCANNER -->
+            <div class="tool-card ${isRadLocked ? 'locked-card' : ''}">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">📡</div>
+                        <div class="tool-name-group">
+                            <div class="tool-title">Prospector's Scanner</div>
+                            <div class="tool-category">Ore Radar & Fluid Fields</div>
+                        </div>
+                    </div>
+
+                    ${isRadLocked ? `
+                        <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); padding: 12px; border-radius: 6px; margin: 12px 0;">
+                            <div style="color: var(--red-light); font-weight: 700; font-size: 0.85rem; margin-bottom: 4px;">🔒 Unlocks at 01-STM (Steam Age)</div>
+                            <div style="color: var(--text-muted); font-size: 0.78rem; line-height: 1.4;">Requires 4 Metal Plates + 2 Metal Rods + 1 Redstone. Cannot be crafted from Flint or Stone.</div>
+                        </div>
+                    ` : `
+                        <label class="selector-label">Scanner Material Selector:</label>
+                        <select id="sel-prospector" class="mat-select" onchange="updateProspectorCard(this.value)">
+                            ${radMats.map(m => `<option value="${m.name}" ${m.name === defRad ? 'selected' : ''}>${m.name} (${(m.dura).toLocaleString()} Dura)</option>`).join('')}
+                        </select>
+
+                        <div id="hud-prospector" class="stats-hud">
+                            <!-- Updated by JS -->
+                        </div>
+                    `}
+
+                    <div class="tool-tip-box">
+                        <strong>Radar Math:</strong> Scans chunk radius for 3x3 ore veins. Right-click bedrock to detect fluid fields. 3 dura on miss, 15 dura on hit.
+                    </div>
+                </div>
+                <div class="cost-tag">
+                    <span><strong>Cost:</strong> Plates + Sticks + Redstone</span>
+                    <span>Analog Radar</span>
+                </div>
+            </div>
+
+            <!-- PLUNGER -->
+            <div class="tool-card ${isPlungerLocked ? 'locked-card' : ''}">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">🪠</div>
+                        <div class="tool-name-group">
+                            <div class="tool-title">Plunger</div>
+                            <div class="tool-category">Fluid Purge & Smeltery Drain</div>
+                        </div>
+                    </div>
+
+                    ${isPlungerLocked ? `
+                        <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); padding: 12px; border-radius: 6px; margin: 12px 0;">
+                            <div style="color: var(--red-light); font-weight: 700; font-size: 0.85rem; margin-bottom: 4px;">🔒 Unlocks at 01-STM (Steam Age)</div>
+                            <div style="color: var(--text-muted); font-size: 0.78rem; line-height: 1.4;">Requires 3 Rubber Plates + 2 Handle Rods (Wood, Bronze, Iron, etc.) + Wire Cutter + File. Cannot be crafted before smelting Rubber resin.</div>
+                        </div>
+                    ` : `
+                        <label class="selector-label">Handle Rod Material:</label>
+                        <select id="sel-plunger" class="mat-select" onchange="updatePlungerCard(this.value)">
+                            ${plungerRodMats.map(m => `<option value="${m.name}" ${m.name === defPlunger ? 'selected' : ''}>${m.name} (${(m.dura).toLocaleString()} Dura)</option>`).join('')}
+                        </select>
+
+                        <div id="hud-plunger" class="stats-hud">
+                            <!-- Updated by JS -->
+                        </div>
+                    `}
+
+                    <div class="tool-tip-box">
+                        <strong>Smeltery Drain Remnant Flush:</strong> Right-click any Tinkers' Smeltery Drain with a plunger to purge annoying 10-80mB leftover molten metal jams instantly.
+                    </div>
+                </div>
+                <div class="cost-tag">
+                    <span><strong>Cost:</strong> 3 Rubber Plates + 2 Rods</span>
+                    <span>Fluid Clearing</span>
+                </div>
+            </div>
+
+            <!-- SOLDERING IRON -->
+            <div class="tool-card ${isSolderLocked ? 'locked-card' : ''}">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">🔌</div>
+                        <div class="tool-name-group">
+                            <div class="tool-title">Soldering Iron</div>
+                            <div class="tool-category">Circuit Maintenance</div>
+                        </div>
+                    </div>
+
+                    ${isSolderLocked ? `
+                        <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.3); padding: 12px; border-radius: 6px; margin: 12px 0;">
+                            <div style="color: var(--red-light); font-weight: 700; font-size: 0.85rem; margin-bottom: 4px;">🔒 Unlocks at 02-LV (Electric Age)</div>
+                            <div style="color: var(--text-muted); font-size: 0.78rem; line-height: 1.4;">Requires an LV Battery (Re-Battery), Rubber Plates, Bolt, and Metal Rod. Not craftable in Stone or Steam Age.</div>
+                        </div>
+                    ` : `
+                        <label class="selector-label">Rod Handle Material:</label>
+                        <select id="sel-solder" class="mat-select" onchange="updateSolderCard(this.value)">
+                            ${solderMats.map(m => `<option value="${m.name}" ${m.name === defSolder ? 'selected' : ''}>${m.name} (${(m.dura).toLocaleString()} Dura)</option>`).join('')}
+                        </select>
+
+                        <div id="hud-solder" class="stats-hud">
+                            <!-- Updated by JS -->
+                        </div>
+                    `}
+
+                    <div class="tool-tip-box">
+                        <strong>Soldering Alloy Efficiency:</strong> Always use <em>Fine Soldering Alloy Wire</em> in your toolbox instead of full ingots—it provides a direct 4x material conservation per maintenance repair!
+                    </div>
+                </div>
+                <div class="cost-tag">
+                    <span><strong>Cost:</strong> 1 Rod + 1 Cable + Battery / Forge Heat</span>
+                    <span>Circuit Solver</span>
+                </div>
+            </div>
+
+            <!-- ROLLING PIN -->
+            <div class="tool-card">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">🥖</div>
+                        <div class="tool-name-group">
+                            <div class="tool-title">Rolling Pin</div>
+                            <div class="tool-category">Kitchen & Dough Prep</div>
+                        </div>
+                    </div>
+
+                    <label class="selector-label">Food-Safe Material:</label>
+                    <select id="sel-rolling" class="mat-select" onchange="updateRollingCard(this.value)">
+                        ${rollMats.map(m => `<option value="${m.name}" ${m.name === defRoll ? 'selected' : ''}>${m.name} (${((m.rollingDura || m.dura)).toLocaleString()} Dura)</option>`).join('')}
+                    </select>
+
+                    <div id="hud-rolling" class="stats-hud">
+                        <!-- Updated by JS -->
+                    </div>
+
+                    <div class="tool-tip-box">
+                        <strong>Pam's Bakeware Equivalent:</strong> Used for dough rolling, crust shaping, and pastry processing until Stainless Steel Bakeware is crafted.
+                    </div>
+                </div>
+                <div class="cost-tag">
+                    <span><strong>Cost:</strong> 2 Plates + 1 Rod</span>
+                    <span>Pam's Bakeware</span>
+                </div>
+            </div>
+
+            <!-- MORTAR -->
+            <div class="tool-card">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">🥣</div>
+                        <div class="tool-name-group">
+                            <div class="tool-title">Mortar</div>
+                            <div class="tool-category">Manual Grinding & Spices</div>
+                        </div>
+                    </div>
+
+                    <label class="selector-label">Bowl & Pestle Material:</label>
+                    <select id="sel-mortar" class="mat-select" onchange="updateMortarCard(this.value)">
+                        ${mortMats.map(m => `<option value="${m.name}" ${m.name === defMort ? 'selected' : ''}>${m.name} (${(m.dura).toLocaleString()} Dura)</option>`).join('')}
+                    </select>
+
+                    <div id="hud-mortar" class="stats-hud">
+                        <!-- Updated by JS -->
+                    </div>
+
+                    <div class="tool-tip-box">
+                        <strong>Early Ore & Wheat Grinder:</strong> Crushes ores, flowers, and grains into dust in the crafting grid before building a Macerator/Pulverizer.
+                    </div>
+                </div>
+                <div class="cost-tag">
+                    <span><strong>Cost:</strong> 4 Plates + 1 Rod</span>
+                    <span>Pam's Mortar & Pestle</span>
+                </div>
+            </div>
+        `;
+
+        if (defSoft) updateSoftMalletCard(defSoft);
+        if (!isKnifeLocked && defKnife) updateButcheryCard(defKnife);
+        if (!isRadLocked && defRad) updateProspectorCard(defRad);
+        if (!isPlungerLocked && defPlunger) updatePlungerCard(defPlunger);
+        if (!isSolderLocked && defSolder) updateSolderCard(defSolder);
+        if (defRoll) updateRollingCard(defRoll);
+        if (defMort) updateMortarCard(defMort);
+    }
+
+    function updateSoftMalletCard(matName) {
+        const mat = MATERIALS.find(m => m.name === matName) || MATERIALS[1];
+        const dura = mat.malletDura || mat.dura;
+        const hud = document.getElementById('hud-softmallet');
+        if (hud) {
+            hud.innerHTML = `
+                <div class="stat-item">
+                    <div class="val">${dura.toLocaleString()}</div>
+                    <div class="lbl">Durability</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val">${mat.speed}x</div>
+                    <div class="lbl">Mining Speed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val badge-green">Soft Safe</div>
+                    <div class="lbl">Machine Safe</div>
+                </div>
+            `;
+        }
+    }
+
+    function updateButcheryCard(matName) {
+        const mat = MATERIALS.find(m => m.name === matName) || MATERIALS[0];
+        const lootingLvl = Math.max(1, Math.floor((2 + mat.quality) / 2));
+        const hud = document.getElementById('hud-butchery');
+        if (hud) {
+            hud.innerHTML = `
+                <div class="stat-item">
+                    <div class="val">${(mat.dura).toLocaleString()}</div>
+                    <div class="lbl">Durability</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val">${mat.speed}x</div>
+                    <div class="lbl">Attack Speed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val badge-special">Looting ${lootingLvl}</div>
+                    <div class="lbl">Butchery Looting</div>
+                </div>
+            `;
+        }
+    }
+
+    function updateProspectorCard(matName) {
+        const mat = MATERIALS.find(m => m.name === matName) || MATERIALS[0];
+        let radar = '1x1';
+        if (mat.quality >= 10) radar = '25x25';
+        else if (mat.quality >= 5) radar = '7x7';
+        else if (mat.quality >= 3) radar = '5x5';
+        else if (mat.quality >= 2) radar = '3x3';
+
+        const hud = document.getElementById('hud-prospector');
+        if (hud) {
+            hud.innerHTML = `
+                <div class="stat-item">
+                    <div class="val">${(mat.dura).toLocaleString()}</div>
+                    <div class="lbl">Durability</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val badge-cyan">${radar}</div>
+                    <div class="lbl">Scan Grid</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val">Tier ${mat.quality}</div>
+                    <div class="lbl">Harvest Lvl</div>
+                </div>
+            `;
+        }
+    }
+
+    function updatePlungerCard(matName) {
+        const mat = MATERIALS.find(m => m.name === matName) || MATERIALS[1];
+        const hud = document.getElementById('hud-plunger');
+        if (hud) {
+            hud.innerHTML = `
+                <div class="stat-item">
+                    <div class="val">${(mat.dura).toLocaleString()}</div>
+                    <div class="lbl">Handle Dura</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val badge-special">1,000 mB</div>
+                    <div class="lbl">Right-Click</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val badge-green">Full Tank</div>
+                    <div class="lbl">Shift-Click</div>
+                </div>
+            `;
+        }
+    }
+
+    function updateSolderCard(matName) {
+        const mat = MATERIALS.find(m => m.name === matName) || MATERIALS[1];
+        const hud = document.getElementById('hud-solder');
+        if (hud) {
+            hud.innerHTML = `
+                <div class="stat-item">
+                    <div class="val">${(mat.dura).toLocaleString()}</div>
+                    <div class="lbl">Rod Durability</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val badge-green">4x Savings</div>
+                    <div class="lbl">Fine Wire Math</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val">100 EU</div>
+                    <div class="lbl">Electric Cost</div>
+                </div>
+            `;
+        }
+    }
+
+    function updateRollingCard(matName) {
+        const mat = MATERIALS.find(m => m.name === matName) || MATERIALS[1];
+        const dura = mat.rollingDura || mat.dura;
+        const hud = document.getElementById('hud-rolling');
+        if (hud) {
+            hud.innerHTML = `
+                <div class="stat-item">
+                    <div class="val">${dura.toLocaleString()}</div>
+                    <div class="lbl">Durability</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val badge-gold">Bakeware</div>
+                    <div class="lbl">Pam's Role</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val badge-green">Food Safe</div>
+                    <div class="lbl">Material Tag</div>
+                </div>
+            `;
+        }
+    }
+
+    function updateMortarCard(matName) {
+        const mat = MATERIALS.find(m => m.name === matName) || MATERIALS[0];
+        const hud = document.getElementById('hud-mortar');
+        if (hud) {
+            hud.innerHTML = `
+                <div class="stat-item">
+                    <div class="val">${(mat.dura).toLocaleString()}</div>
+                    <div class="lbl">Durability</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val">${mat.speed}x</div>
+                    <div class="lbl">Grind Speed</div>
+                </div>
+                <div class="stat-item">
+                    <div class="val">Tier ${mat.quality}</div>
+                    <div class="lbl">Crush Tier</div>
+                </div>
+            `;
+        }
+    }
+
+    // Tab 2 Maintenance Diagnostics
+    const SOLUTIONS = {
+        pipes: {
+            title: "🔧 Solution: Fix Loose Pipes",
+            tool: "Wrench",
+            desc: "Right-click the Multiblock Maintenance Hatch with a <strong>Wrench</strong> (or Electric Wrench). This immediately tightens loose fluid/steam pipe seals."
+        },
+        screws: {
+            title: "🪛 Solution: Tighten Loose Screws",
+            tool: "Screwdriver",
+            desc: "Right-click the Maintenance Hatch with a <strong>Screwdriver</strong> (or Electric Screwdriver). Fixes casing vibration faults."
+        },
+        circuit: {
+            title: "🔌 Solution: Repair Burned Circuit Calculations",
+            tool: "Soldering Iron",
+            desc: "Right-click the Maintenance Hatch with a <strong>Soldering Iron</strong> and ensure you have <strong>Fine Soldering Alloy Wire</strong> in your inventory (or Tool Box)."
+        },
+        rotor: {
+            title: "⛏️ Solution: Clear Mechanical Jams",
+            tool: "Crowbar",
+            desc: "Right-click the Maintenance Hatch with a <strong>Crowbar</strong> to dislodge jammed gears or structural covers."
+        },
+        plating: {
+            title: "🔨 Solution: Flatten Dented Platings",
+            tool: "Hard Hammer",
+            desc: "Right-click the Maintenance Hatch with a <strong>Hard Hammer / Forge Hammer</strong> to repair dented outer platings."
+        },
+        mallet: {
+            title: "🪵 Solution: General Maintenance Cycle",
+            tool: "Tool Box",
+            desc: "Place all 6 maintenance tools in a <strong>GregTech Tool Box</strong> and right-click the hatch once to solve all maintenance issues in a single click!"
+        }
+    };
+
+    function diagnoseIssue(issueKey, btn) {
+        document.querySelectorAll('.diag-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const sol = SOLUTIONS[issueKey];
+        document.getElementById('sol-title').innerHTML = sol.title;
+        document.getElementById('sol-body').innerHTML = sol.desc;
+    }
+
+    // Tab 3 Radar Grid & Optimizer
+    let currentRadarRadius = 1; // 1 = 3x3, 2 = 5x5, 3 = 7x7
+    let currentRadarLabel = '3x3 (Bronze / Manasteel)';
+
+    // Predefined 3x3 Vein Centers in 7x7 Grid (coordinates in 0..6)
+    // Vein 1: center (1,1) -> chunks (0..2, 0..2)
+    // Vein 2: center (1,5) -> chunks (0..2, 4..6)
+    // Vein 3: center (5,1) -> chunks (4..6, 0..2)
+    // Vein 4: center (5,5) -> chunks (4..6, 4..6)
+    const VEIN_CENTERS = [
+        { r: 1, c: 1, name: "NW Vein" },
+        { r: 1, c: 5, name: "NE Vein" },
+        { r: 5, c: 1, name: "SW Vein" },
+        { r: 5, c: 5, name: "SE Vein" }
+    ];
+
+    function isVeinChunk(r, c) {
+        return VEIN_CENTERS.some(v => Math.abs(v.r - r) <= 1 && Math.abs(v.c - c) <= 1);
+    }
+
+    function isVeinCenter(r, c) {
+        return VEIN_CENTERS.some(v => v.r === r && v.c === c);
+    }
+
+    function initRadarGrid() {
+        const grid = document.getElementById('radar-grid-cells');
+        grid.innerHTML = '';
+        for (let r = 0; r < 7; r++) {
+            for (let c = 0; c < 7; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'chunk-cell';
+                if (isVeinCenter(r, c)) cell.classList.add('vein-center');
+                else if (isVeinChunk(r, c)) cell.classList.add('vein-block');
+                
+                cell.textContent = `(${c},${r})`;
+                cell.onclick = () => selectChunk(r, c);
+                grid.appendChild(cell);
+            }
+        }
+    }
+
+    function setRadarRange(radius, label, btn) {
+        currentRadarRadius = radius;
+        currentRadarLabel = label;
+        document.querySelectorAll('.radar-btn').forEach(b => b.classList.remove('active'));
+        if (btn) btn.classList.add('active');
+        document.getElementById('radar-badge-active').textContent = label;
+        // Re-evaluate current selected chunk
+        const player = document.querySelector('.chunk-cell.player-pos');
+        if (player) {
+            const idx = Array.from(player.parentNode.children).indexOf(player);
+            selectChunk(Math.floor(idx / 7), idx % 7);
+        } else {
+            selectChunk(3, 3);
+        }
+    }
+
+    function selectChunk(pr, pc) {
+        const cells = document.querySelectorAll('.chunk-cell');
+        let scannedCount = 0;
+        let veinsReached = new Set();
+        let hitChunks = 0;
+
+        cells.forEach((cell, idx) => {
+            const r = Math.floor(idx / 7);
+            const c = idx % 7;
+            cell.className = 'chunk-cell';
+            if (isVeinCenter(r, c)) cell.classList.add('vein-center');
+            else if (isVeinChunk(r, c)) cell.classList.add('vein-block');
+            
+            // Scan range centered on clicked chunk
+            if (Math.abs(r - pr) <= currentRadarRadius && Math.abs(c - pc) <= currentRadarRadius) {
+                cell.classList.add('scanned');
+                scannedCount++;
+
+                // Check vein intersections
+                VEIN_CENTERS.forEach((v, vIdx) => {
+                    if (Math.abs(v.r - r) <= 1 && Math.abs(v.c - c) <= 1) {
+                        veinsReached.add(vIdx);
+                        hitChunks++;
+                    }
+                });
+            }
+            if (r === pr && c === pc) {
+                cell.classList.add('player-pos');
+            }
+        });
+
+        const misses = scannedCount - hitChunks;
+        const avgDura = (misses * 3) + (hitChunks * 15);
+
+        document.getElementById('stat-scanned-chunks').textContent = scannedCount;
+        document.getElementById('stat-veins-hit').textContent = veinsReached.size;
+        document.getElementById('stat-avg-dura').textContent = `~${avgDura}`;
+
+        // Strategy explanation
+        let expl = "";
+        if (currentRadarRadius === 1) {
+            if (pr === 3 && pc === 3) {
+                expl = "👑 <strong>Optimal 3x3 Edge Scan</strong>: Standing in chunk (3,3) on the intersection borders touches all 4 neighboring 3x3 veins! You discover 4 distinct veins with a single 3x3 scanner right-click.";
+            } else if (isVeinCenter(pr, pc)) {
+                expl = "⚠️ <strong>Sub-optimal 3x3 Center Scan</strong>: Standing in the center of a vein only scans that 1 single vein. You learn nothing about neighboring veins!";
+            } else {
+                expl = `Custom position (${pc},${pr}): Scanning ${scannedCount} chunks and reaching ${veinsReached.size} veins.`;
+            }
+        } else if (currentRadarRadius === 2) {
+            expl = `⭐ <strong>5x5 Scan Coverage</strong>: Scans 25 chunks. Reaching ${veinsReached.size} veins simultaneously with massive coverage across the area.`;
+        } else {
+            expl = `🌌 <strong>7x7 Sweeping Radar</strong>: Scans 49 chunks in one click, capturing all 4 visible vein deposits across the entire sector!`;
+        }
+        document.getElementById('radar-strategy-explanation').innerHTML = expl;
+    }
+
+    function applyRadarPreset(preset) {
+        if (preset === 'edge_3x3') {
+            setRadarRange(1, '3x3 (Bronze / Manasteel)', null);
+            selectChunk(3, 3);
+        } else if (preset === 'center_5x5') {
+            setRadarRange(2, '5x5 (Steel / Knightmetal)', null);
+            selectChunk(3, 3);
+        } else if (preset === 'suboptimal_center') {
+            setRadarRange(1, '3x3 (Bronze / Manasteel)', null);
+            selectChunk(1, 1);
+        }
+    }
+
+    // Initialize on load
+    window.addEventListener('DOMContentLoaded', () => {
+        renderWorkbench();
+        initRadarGrid();
+        applyRadarPreset('edge_3x3');
+    });
+</script>
+
+</body>
+</html>

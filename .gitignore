@@ -1,0 +1,15 @@
+# Build scripts, intermediate caches, logs & test screenshots
+*.py
+*.png
+*.csv
+*.txt
+*.json
+*.java
+*.log
+__pycache__/
+cropsnh_src/
+gtnh-suite-release/
+wiki_*.html
+gtnh_crop_navigator.html
+gtnh_infusion_architect.html
+thaumcraft_full_research_tree.html
