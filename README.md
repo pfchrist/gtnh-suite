@@ -4,7 +4,7 @@ A comprehensive, zero-dependency web companion suite for **GregTech: New Horizon
 
 ## 🛠️ Included Tools
 
-1. **🔨 Tinkers' Tool Workshop & Architect (`gtnh_tinkers_architect.html`)**
+1. **🔨 Tinkers' Tool & Weapon Architect (`gtnh_tinkers_architect.html`)**
    - Interactive assembly workbench for all tool archetypes (Pickaxes, Hammers, Mattocks, Cleavers, Rapiers, Crossbows, Shurikens, Shields).
    - 72 Curated Blueprints spanning Stone Age to LuV/Space progression.
    - Dual Tool Comparator with side-by-side spec deltas and win indicators.
@@ -23,18 +23,18 @@ A comprehensive, zero-dependency web companion suite for **GregTech: New Horizon
    - 8 Canonical Wild Gardens & 133 Base Pantry Sourcing Inspector.
    - Tech Gate Timeline (Stone Age ➔ Steam ➔ LV ➔ MV ➔ HV+).
 
-4. **🐝 Bee Breeding & Mutation Navigator (`gtnh_bee_navigator.html`)**
+4. **🐝 Bee Breeding & Genetic Navigator (`gtnh_bee_navigator.html`)**
    - Forward & reverse genetic mutation solver across Forestry, Extra Bees, Magic Bees, and GTNH.
    - Climate tolerances, diurnal traits, and comb centrifuge drop tables.
 
-5. **🌱 IC2 Crops++ Mutation & Stat Suite (`gtnh_cropsnh_navigator.html`)**
+5. **🌾 IC2 Crop Mutation & Breeding Suite (`gtnh_cropsnh_navigator.html`)**
    - Resource crop crossing trees (*Ferru, Aurelia, Tearstalks, Oil Berries*).
-   - 21/31/0 Growth/Gain/Resistance breeding strategies.
+   - 21/31/0 & 23/31/0 Growth/Gain/Resistance breeding strategies.
 
-6. **⚗️ Clean Crucible & Essentia Solver (`gtnh_clean_crucible.html`)**
+6. **🧪 Clean Crucible & Essentia Solver (`gtnh_clean_crucible.html`)**
    - Zero-flux alchemical calculator determining exact item inputs with minimum aspect waste.
 
-7. **📜 Thaumcraft Research Navigator (`thaumcraft_research_navigator.html`)**
+7. **🔮 Thaumcraft Research & Aspect Solver (`thaumcraft_research_navigator.html`)**
    - Hex grid shortest-path aspect combination solver.
 
 ---
