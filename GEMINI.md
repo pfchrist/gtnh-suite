@@ -21,3 +21,8 @@
 ## 4. Recipe Crafting Grid Fidelity
 - All crafting recipes presented to the user must reflect the actual shaped/shapeless crafting matrix defined in GT5U / mod code (`ProcessingToolOther.java`, `ProcessingToolHead.java`, `MetaGeneratedTool01.java`, etc.).
 - Never offer materials for tool parts that do not have the required `OrePrefix` (e.g., Stone and Flint have no plates, so tools requiring plates cannot be crafted from Stone or Flint).
+
+## 5. Deployment & Git Push Protocol
+- **NEVER push new tools, code, or documentation changes to GitHub automatically.**
+- All newly created tools, updates, and bug fixes must stay local in the workspace so the user can test, inspect, and evaluate them first.
+- Only execute `git push` when the user explicitly instructs you to push to remote.
