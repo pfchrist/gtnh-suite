@@ -527,7 +527,7 @@
                 <div class="stat-label">IC2 Crops</div>
             </div>
             <div class="stat-item">
-                <div class="stat-num">8 Tools</div>
+                <div class="stat-num">9 Tools</div>
                 <div class="stat-label">Active Suite</div>
             </div>
         </div>
@@ -539,7 +539,8 @@
         <!-- Controls Bar -->
         <div class="controls-bar">
             <div class="filter-group">
-                <button class="filter-btn active" onclick="filterCategory('all', this)">All Tools (8)</button>
+                <button class="filter-btn active" onclick="filterCategory('all', this)">All Tools (9)</button>
+                <button class="filter-btn" onclick="filterCategory('circuits', this)">&#9889; Circuits &amp; AE2</button>
                 <button class="filter-btn" onclick="filterCategory('tools', this)">&#128296; Tools &amp; TiC</button>
                 <button class="filter-btn" onclick="filterCategory('ores', this)">&#9935;&#65039; Ores &amp; Mining</button>
                 <button class="filter-btn" onclick="filterCategory('food', this)">&#127822; Food &amp; Nutrition</button>
@@ -600,7 +601,31 @@
                     <a href="gtnh_gregtech_tools.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
                 </div>
             </div>
-            <!-- Tool 2: Dimensional Ore & Yield Navigator -->
+
+            <!-- Tool 3: Circuit Evolution & Material Tradeoff Architect -->
+            <div class="tool-card" data-category="circuits" style="--card-accent: #3b82f6;">
+                <div>
+                    <div class="tool-header">
+                        <div class="tool-icon">⚡</div>
+                        <span class="tool-badge badge-tool">GT5U &amp; AE2</span>
+                    </div>
+                    <div class="tool-title">Circuit Evolution &amp; Material Tradeoff Architect</div>
+                    <div class="tool-desc">Precision bill-of-materials analyzer, component-swapping optimizer, chemical board etching matrix, and progressive roadmap from Stone Age Vacuum Tubes to AE2 ME Automation.</div>
+                    <ul class="feature-list">
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Interactive Circuit BOM &amp; Scaler:</strong> Exact raw metal &amp; fluid breakdown from ULV Vacuum Tubes up to EV / AE2</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Discrete vs. SMD Tradeoffs:</strong> 16x to 64x component yields, 50% cycle time reduction &amp; cleanroom break-even solver</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Board Hierarchy &amp; Polymers:</strong> Substrate yield bonuses (Wood &rarr; PE &rarr; PVC 2x &rarr; PTFE 4x &rarr; PBI 8x)</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Etchant Efficiency Matrix:</strong> FeCl3 (50% volume) vs. Sodium Persulfate &amp; acid coating yields</li>
+                        <li class="feature-item"><span class="feature-bullet">&#9679;</span> <strong>Road to AE2 Pathway:</strong> Stage-by-stage progression milestones &amp; starter AE2 infrastructure circuit budget</li>
+                    </ul>
+                </div>
+                <div class="tool-actions">
+                    <button class="btn-launch" onclick="launchEmbeddedTool('gtnh_circuit_architect.html', '⚡ Circuit Evolution &amp; Tradeoff Architect')">&#128640; Launch Tool</button>
+                    <a href="gtnh_circuit_architect.html" target="_blank" class="btn-tab">&#8599; New Tab</a>
+                </div>
+            </div>
+
+            <!-- Tool 4: Dimensional Ore & Yield Navigator -->
             <div class="tool-card" data-category="ores" style="--card-accent: #06b6d4;">
                 <div>
                     <div class="tool-header">
@@ -737,7 +762,7 @@
                 <span class="workspace-app-title" id="workspace-title-text">&#9889; Active Companion Tool</span>
             </div>
             <div class="workspace-quick-nav">
-                <button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_tinkers_architect.html', '🔨 Tinkers Tool &amp; Weapon Architect')">🔨 Tinkers</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_gregtech_tools.html', '⚙️ GregTech Tool Architect')">⚙️ GT Tools</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '⛏️ Dimensional Ore &amp; Yield Navigator')">⛏️ Ore &amp; Yields</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_food_architect.html', '🍲 Food &amp; Nutrition Architect')">🍲 Food &amp; Diet</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_bee_navigator.html', '🐝 Bee Breeding &amp; Genetic Navigator')">🐝 Bees &amp; Genes</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_cropsnh_navigator.html', '🌾 IC2 Crop Mutation &amp; Breeding Suite')">🌾 IC2 Crops</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_clean_crucible.html', '🧪 Clean Crucible &amp; Essentia Solver')">🧪 Clean Crucible</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('thaumcraft_research_navigator.html', '🔮 Thaumcraft Research &amp; Aspect Solver')">🔮 Thaumcraft</button>
+                <button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_circuit_architect.html', '⚡ Circuit Evolution &amp; Tradeoff Architect')">⚡ Circuits</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_tinkers_architect.html', '🔨 Tinkers Tool &amp; Weapon Architect')">🔨 Tinkers</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_gregtech_tools.html', '⚙️ GregTech Tool Architect')">⚙️ GT Tools</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_ore_navigator.html', '⛏️ Dimensional Ore &amp; Yield Navigator')">⛏️ Ore &amp; Yields</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_food_architect.html', '🍲 Food &amp; Nutrition Architect')">🍲 Food &amp; Diet</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_bee_navigator.html', '🐝 Bee Breeding &amp; Genetic Navigator')">🐝 Bees &amp; Genes</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_cropsnh_navigator.html', '🌾 IC2 Crop Mutation &amp; Breeding Suite')">🌾 IC2 Crops</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('gtnh_clean_crucible.html', '🧪 Clean Crucible &amp; Essentia Solver')">🧪 Clean Crucible</button><button class="quick-nav-btn" onclick="launchEmbeddedTool('thaumcraft_research_navigator.html', '🔮 Thaumcraft Research &amp; Aspect Solver')">🔮 Thaumcraft</button>
             </div>
         </div>
         <iframe id="workspace-iframe" class="workspace-frame" src="about:blank"></iframe>

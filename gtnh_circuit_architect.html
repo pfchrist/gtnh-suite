@@ -1,0 +1,1988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-11CS186SLE"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-11CS186SLE');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GTNH Circuit Evolution & Material Tradeoff Architect | GTNH Companion Suite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #090d16;
+            --bg-card: rgba(17, 24, 39, 0.85);
+            --bg-card-hover: rgba(30, 41, 59, 0.95);
+            --border-card: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(245, 158, 11, 0.4);
+            
+            --gold-primary: #f59e0b;
+            --gold-light: #fbbf24;
+            --gold-glow: rgba(245, 158, 11, 0.25);
+            
+            --cyan: #06b6d4;
+            --cyan-light: #22d3ee;
+            --purple: #a855f7;
+            --purple-light: #c084fc;
+            --green: #10b981;
+            --green-light: #34d399;
+            --red: #ef4444;
+            --red-light: #f87171;
+            --blue: #3b82f6;
+            --blue-light: #60a5fa;
+            
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --text-dim: #6b7280;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            background-image: 
+                radial-gradient(circle at 10% 15%, rgba(245, 158, 11, 0.06) 0%, transparent 40%),
+                radial-gradient(circle at 90% 20%, rgba(6, 182, 212, 0.06) 0%, transparent 45%),
+                radial-gradient(circle at 50% 85%, rgba(168, 85, 247, 0.05) 0%, transparent 50%),
+                linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+            background-size: 100% 100%, 100% 100%, 100% 100%, 36px 36px, 36px 36px;
+            color: var(--text-main);
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            padding-bottom: 60px;
+        }
+
+        /* HERO HEADER */
+        .hero {
+            padding: 36px 24px 24px 24px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0.8) 0%, rgba(9, 13, 22, 0.4) 100%);
+            position: relative;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 14px;
+            background: rgba(245, 158, 11, 0.12);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 9999px;
+            color: var(--gold-light);
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+
+        .hero h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 34px;
+            font-weight: 900;
+            letter-spacing: 0.02em;
+            background: linear-gradient(135deg, #ffffff 25%, #fde68a 70%, #f59e0b 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 8px;
+            text-shadow: 0 4px 20px rgba(245, 158, 11, 0.15);
+        }
+
+        .hero p {
+            color: var(--text-muted);
+            font-size: 14px;
+            max-width: 820px;
+            margin: 0 auto 16px auto;
+            line-height: 1.5;
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+
+        .stat-pill {
+            background: rgba(17, 24, 39, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .stat-pill strong {
+            color: var(--gold-light);
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+        }
+
+        /* NAVIGATION TABS */
+        .nav-tabs {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            padding: 16px 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(11, 17, 30, 0.6);
+            backdrop-filter: blur(8px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            padding: 9px 18px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(245, 158, 11, 0.05) 100%);
+            border-color: var(--gold-primary);
+            color: #fff;
+            box-shadow: 0 0 16px rgba(245, 158, 11, 0.15);
+        }
+
+        /* CONTENT CONTAINERS */
+        .container {
+            max-width: 1380px;
+            margin: 24px auto 0 auto;
+            padding: 0 20px;
+        }
+
+        .tab-pane {
+            display: none;
+            animation: fadeIn 0.25s ease-out;
+        }
+
+        .tab-pane.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* CARDS & PANELS */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            border-radius: 12px;
+            padding: 20px;
+            backdrop-filter: blur(12px);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-title .icon {
+            font-size: 18px;
+        }
+
+        .badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 4px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .badge-ulv { background: #374151; color: #d1d5db; }
+        .badge-lv { background: rgba(59, 130, 246, 0.2); color: #93c5fd; border: 1px solid rgba(59, 130, 246, 0.4); }
+        .badge-mv { background: rgba(16, 185, 129, 0.2); color: #6ee7b7; border: 1px solid rgba(16, 185, 129, 0.4); }
+        .badge-hv { background: rgba(245, 158, 11, 0.2); color: #fde68a; border: 1px solid rgba(245, 158, 11, 0.4); }
+        .badge-ev { background: rgba(168, 85, 247, 0.2); color: #d8b4fe; border: 1px solid rgba(168, 85, 247, 0.4); }
+        .badge-ae2 { background: rgba(6, 182, 212, 0.2); color: #67e8f9; border: 1px solid rgba(6, 182, 212, 0.4); }
+
+        /* GRID LAYOUTS */
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .grid-4 {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+        }
+
+        @media (max-width: 1024px) {
+            .grid-2, .grid-3, .grid-4 {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* FORM CONTROLS */
+        .control-group {
+            margin-bottom: 16px;
+        }
+
+        .control-label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .select-input, .text-input {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #fff;
+            padding: 9px 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-family: inherit;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .select-input:focus, .text-input:focus {
+            border-color: var(--gold-primary);
+            box-shadow: 0 0 10px rgba(245, 158, 11, 0.2);
+        }
+
+        .qty-buttons {
+            display: flex;
+            gap: 6px;
+            margin-top: 6px;
+            flex-wrap: wrap;
+        }
+
+        .qty-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            padding: 5px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-family: 'JetBrains Mono', monospace;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .qty-btn.active {
+            background: rgba(245, 158, 11, 0.2);
+            border-color: var(--gold-primary);
+            color: var(--gold-light);
+            font-weight: 700;
+        }
+
+        /* METRIC HIGHLIGHT STRIP */
+        .metric-strip {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .metric-box {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 8px;
+            padding: 12px;
+            text-align: center;
+        }
+
+        .metric-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 20px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .metric-val.gold { color: var(--gold-light); }
+        .metric-val.cyan { color: var(--cyan-light); }
+        .metric-val.green { color: var(--green-light); }
+        .metric-val.purple { color: var(--purple-light); }
+        .metric-val.red { color: var(--red-light); }
+
+        .metric-label {
+            font-size: 11px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* TABLES */
+        .table-wrap {
+            overflow-x: auto;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(15, 23, 42, 0.5);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(30, 41, 59, 0.8);
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 10px 14px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: var(--text-main);
+        }
+
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .mono {
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* COMPARISON CARDS */
+        .compare-box {
+            display: flex;
+            align-items: stretch;
+            gap: 16px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .compare-side {
+            flex: 1;
+            min-width: 280px;
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            padding: 16px;
+            position: relative;
+        }
+
+        .compare-side.highlight {
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(6, 78, 59, 0.12);
+        }
+
+        .compare-side.warning {
+            border-color: rgba(239, 68, 68, 0.5);
+            background: rgba(127, 29, 29, 0.12);
+        }
+
+        .compare-title {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .delta-tag {
+            font-size: 11px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+
+        .delta-save { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+        .delta-cost { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+
+        /* TREE DIAGRAM / FLOWCHART */
+        .tree-container {
+            padding: 20px;
+            background: rgba(11, 17, 30, 0.7);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            overflow-x: auto;
+        }
+
+        .flow-step {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            position: relative;
+        }
+
+        .flow-step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 40px;
+            bottom: -16px;
+            width: 2px;
+            background: rgba(245, 158, 11, 0.3);
+        }
+
+        .flow-circle {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: rgba(245, 158, 11, 0.15);
+            border: 2px solid var(--gold-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+            color: var(--gold-light);
+            flex-shrink: 0;
+            z-index: 2;
+        }
+
+        .flow-content {
+            background: rgba(17, 24, 39, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 12px 16px;
+            flex-grow: 1;
+        }
+
+        .flow-heading {
+            font-size: 14px;
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .flow-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* CODE SNIPPETS */
+        .code-box {
+            background: #030712;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 14px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: #a5f3fc;
+            overflow-x: auto;
+            line-height: 1.5;
+            position: relative;
+            margin-top: 8px;
+        }
+
+        .code-box code {
+            font-family: inherit;
+        }
+
+        .code-annotation {
+            color: #6ee7b7;
+        }
+
+        .code-keyword {
+            color: #f472b6;
+        }
+
+        .code-comment {
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        /* TOOLTIP */
+        .info-tip {
+            display: inline-block;
+            cursor: help;
+            color: var(--gold-light);
+            border-bottom: 1px dotted var(--gold-primary);
+            font-size: 11px;
+            margin-left: 4px;
+        }
+
+        /* FOOTER */
+        footer {
+            margin-top: 50px;
+            text-align: center;
+            color: var(--text-dim);
+            font-size: 12px;
+            padding: 24px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO HEADER -->
+    <header class="hero">
+        <div class="hero-badge">&#9889; GregTech: New Horizons 2.9 &bull; Ground-Truth Engine</div>
+        <h1>CIRCUIT EVOLUTION &amp; MATERIAL TRADEOFF ARCHITECT</h1>
+        <p>A precision bill-of-materials analyzer, component-swapping optimizer, chemical board etching matrix, and progressive roadmap from Stone Age Vacuum Tubes to AE2 ME Automation.</p>
+        
+        <div class="stats-bar">
+            <div class="stat-pill">
+                <span>Tier Coverage:</span>
+                <strong>ULV &rarr; EV / AE2</strong>
+            </div>
+            <div class="stat-pill">
+                <span>Solder Math:</span>
+                <strong>1x Alloy : 2x Tin : 4x Lead</strong>
+            </div>
+            <div class="stat-pill">
+                <span>Silicon Yield:</span>
+                <strong>1 Boule = 128-512 Chips</strong>
+            </div>
+            <div class="stat-pill">
+                <span>SMD Component Gain:</span>
+                <strong>16x to 64x Yield</strong>
+            </div>
+            <div class="stat-pill">
+                <span>Code Ground Truth:</span>
+                <strong>100% GT5U Verified</strong>
+            </div>
+        </div>
+    </header>
+
+    <!-- NAVIGATION TABS -->
+    <nav class="nav-tabs">
+        <button class="tab-btn active" onclick="switchTab('scaler', this)">&#129518; BOM &amp; Recipe Scaler</button>
+        <button class="tab-btn" onclick="switchTab('comparator', this)">&#9878;&#65039; Discrete vs. SMD Tradeoffs</button>
+        <button class="tab-btn" onclick="switchTab('boards', this)">&#128190; Boards &amp; Chemical Etching</button>
+        <button class="tab-btn" onclick="switchTab('ae2', this)">&#127937; Road to AE2 Pathway</button>
+        <button class="tab-btn" onclick="switchTab('codex', this)">&#128214; Game-Code Circuit Codex</button>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <main class="container">
+
+        <!-- ============================================================== -->
+        <!-- TAB 1: BOM & RECIPE SCALER -->
+        <!-- ============================================================== -->
+        <section id="pane-scaler" class="tab-pane active">
+            
+            <div class="grid-3">
+                
+                <!-- Card 1: Configuration Panel -->
+                <div class="card" style="grid-column: span 1;">
+                    <div class="card-header">
+                        <div class="card-title"><span class="icon">&#9881;&#65039;</span> Circuit Configuration</div>
+                        <span class="badge badge-lv" id="cfg-tier-badge">LV Tier</span>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Target Circuit</label>
+                        <select id="sel-circuit" class="select-input" onchange="updateScaler()">
+                            <!-- T0 ULV -->
+                            <optgroup label="Tier 0 (ULV) - Primitive">
+                                <option value="vacuum_tube">Vacuum Tube (ULV Primitive)</option>
+                            </optgroup>
+                            <!-- T1 LV -->
+                            <optgroup label="Tier 1 (LV) - Electronic">
+                                <option value="basic_electronic" selected>Basic Electronic Circuit (IC2)</option>
+                                <option value="integrated_logic">Integrated Logic Circuit (GT ILC Chip)</option>
+                                <option value="nand_chip_array">NAND Chip Array (SoC / NAND)</option>
+                            </optgroup>
+                            <!-- T2 MV -->
+                            <optgroup label="Tier 2 (MV) - Good Electronic">
+                                <option value="good_electronic">Good Electronic Circuit (GT)</option>
+                                <option value="good_integrated">Good Integrated Circuit (GIC)</option>
+                                <option value="microprocessor">Microprocessor (Plastic Line &bull; 2x Yield)</option>
+                            </optgroup>
+                            <!-- T3 HV -->
+                            <optgroup label="Tier 3 (HV) - Advanced / Processors">
+                                <option value="advanced_circuit">Advanced Circuit (IC2)</option>
+                                <option value="integrated_processor">Integrated Processor (Plastic Line)</option>
+                                <option value="nanoprocessor">Nanoprocessor (Epoxy Line &bull; Cleanroom)</option>
+                            </optgroup>
+                            <!-- T4 EV & AE2 -->
+                            <optgroup label="Tier 4 (EV) &amp; Applied Energistics 2">
+                                <option value="workstation">Workstation / Data Circuit (EV Data)</option>
+                                <option value="processor_assembly">Processor Assembly / Computer (EV)</option>
+                                <option value="ae2_controller">AE2 ME Controller (2x HV + 4x Titanium)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Batch Target Quantity</label>
+                        <input type="number" id="input-qty" class="text-input mono" value="16" min="1" max="10000" oninput="updateScaler()">
+                        <div class="qty-buttons">
+                            <button class="qty-btn" onclick="setQty(1)">1</button>
+                            <button class="qty-btn" onclick="setQty(4)">4</button>
+                            <button class="qty-btn active" onclick="setQty(16)">16</button>
+                            <button class="qty-btn" onclick="setQty(64)">64</button>
+                            <button class="qty-btn" onclick="setQty(256)">256</button>
+                            <button class="qty-btn" onclick="setQty(1024)">1024</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Manufacturing Method</label>
+                        <select id="sel-method" class="select-input" onchange="updateScaler()">
+                            <option value="auto">Optimal Available Method (Auto)</option>
+                            <option value="manual">Manual Workbench (Crafting Table / Primitive)</option>
+                            <option value="assembler">Circuit Assembler (Discrete Components)</option>
+                            <option value="smd">Advanced SMT Line (SMD Components)</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Soldering Fluid Selection</label>
+                        <select id="sel-solder" class="select-input" onchange="updateScaler()">
+                            <option value="soldering_alloy">Soldering Alloy (1.0x &bull; 72 mB Base &bull; Optimal)</option>
+                            <option value="tin">Molten Tin (2.0x &bull; 144 mB Base &bull; 2x Ingot Cost)</option>
+                            <option value="lead">Molten Lead (4.0x &bull; 288 mB Base &bull; 4x Ingot Cost)</option>
+                        </select>
+                    </div>
+
+                    <div class="card" style="background: rgba(15, 23, 42, 0.5); padding: 12px; margin-bottom: 0;">
+                        <div style="font-size: 11px; color: var(--text-dim); text-transform: uppercase; font-weight: 700; margin-bottom: 4px;">Active Recipe Dossier</div>
+                        <div id="recipe-dossier-text" style="font-size: 12px; color: var(--text-muted); line-height: 1.4;">
+                            Loading recipe mechanics...
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Card 2 & 3: Outputs & BOM Breakdown -->
+                <div style="grid-column: span 2;">
+                    
+                    <!-- Metrics Summary -->
+                    <div class="metric-strip">
+                        <div class="metric-box">
+                            <div class="metric-val gold" id="metric-circuits">16</div>
+                            <div class="metric-label">Circuits Built</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-val cyan" id="metric-copper">67.2</div>
+                            <div class="metric-label">Copper Ingots</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-val red" id="metric-redstone">144</div>
+                            <div class="metric-label">Redstone Dust</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-val green" id="metric-solder">1,152 mB</div>
+                            <div class="metric-label">Soldering Fluid</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-val purple" id="metric-time">160s</div>
+                            <div class="metric-label">Base Run Time</div>
+                        </div>
+                    </div>
+
+                    <!-- Raw Materials & Sourcing Table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><span class="icon">&#9935;&#65039;</span> Raw Ore &amp; Elemental Bill of Materials (BOM)</div>
+                            <span style="font-size: 12px; color: var(--text-muted);">Exact elemental ingot/dust cost for full batch</span>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Material</th>
+                                        <th>Total Ingot / Dust</th>
+                                        <th>Per Circuit</th>
+                                        <th>Primary Form</th>
+                                        <th>Key Machine Stage</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="bom-table-body">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Intermediate Components Table -->
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title"><span class="icon">&#128268;</span> Intermediate Assemblies &amp; Machine Stages</div>
+                            <span style="font-size: 12px; color: var(--text-muted);">Sub-components required before final assembly</span>
+                        </div>
+                        <div class="table-wrap">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Component</th>
+                                        <th>Total Needed</th>
+                                        <th>Crafting Machine</th>
+                                        <th>Tier &amp; Power</th>
+                                        <th>Optimization Note</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sub-table-body">
+                                    <!-- Populated dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- TAB 2: DISCRETE VS SMD TRADEOFFS -->
+        <!-- ============================================================== -->
+        <section id="pane-comparator" class="tab-pane">
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">&#9878;&#65039;</span> Part-Swapping &amp; Technology Breakpoint Comparator</div>
+                    <span class="badge badge-hv">HV &bull; SMT Evolution</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 16px; line-height: 1.5;">
+                    In GregTech: New Horizons, circuit recipes provide massive discounts when switching from early manual crafting to the Circuit Assembler, and again when unlocking Surface Mount Device (SMD) components. Compare the exact resource deltas below:
+                </p>
+
+                <div class="compare-box">
+                    
+                    <!-- Side A: Manual Table -->
+                    <div class="compare-side warning">
+                        <div class="compare-title">
+                            <span style="color: #f87171;">Manual Workbench (Crafting Table)</span>
+                            <span class="badge badge-ulv">Stone &bull; Steam</span>
+                        </div>
+                        <ul style="list-style: none; font-size: 13px; line-height: 1.8; color: var(--text-muted);">
+                            <li>&#10060; <strong>Steel Casing:</strong> Consumes 1 Steel Item Casing per circuit (0.5 plate = 0.5 ingot)!</li>
+                            <li>&#10060; <strong>Red Alloy Cable:</strong> Requires 3x insulated Red Alloy cables (wastes rubber/wool).</li>
+                            <li>&#10060; <strong>Vacuum Tube:</strong> Manual craft takes 3x Copper wire + 2x Fine wire + 2x Steel rod per tube.</li>
+                            <li>&#10060; <strong>Resistor:</strong> Manual craft requires 1 Coal + 2 Copper wire + 2 Fine copper + 2 Slime/Resin.</li>
+                            <li>&#10060; <strong>No Automation:</strong> Must be hand-crafted in 3x3 grid; cannot be piped into auto-crafting.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Side B: Circuit Assembler -->
+                    <div class="compare-side highlight">
+                        <div class="compare-title">
+                            <span style="color: #34d399;">Circuit Assembler (LV Tier)</span>
+                            <span class="badge badge-lv">LV &bull; Soldering</span>
+                        </div>
+                        <ul style="list-style: none; font-size: 13px; line-height: 1.8; color: var(--text-main);">
+                            <li>&#9989; <strong>Zero Steel Casing:</strong> Eliminates 100% of steel casing costs!</li>
+                            <li>&#9989; <strong>Bare Wires:</strong> Uses 2x bare Red Alloy wires instead of 3x insulated cables (saves 33% Red Alloy + 100% rubber).</li>
+                            <li>&#9989; <strong>Automated Soldering:</strong> Only 72 mB Soldering Alloy (0.5 ingot) per board.</li>
+                            <li>&#9989; <strong>Tube Doubling:</strong> Assembler produces 4x Vacuum Tubes for 0.5 Red Alloy + 2 Steel + 2 Copper.</li>
+                            <li>&#9989; <strong>Duration:</strong> 10 seconds at 16 EU/t (half LV voltage).</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+                <div class="compare-box">
+                    
+                    <!-- Side C: Discrete Components -->
+                    <div class="compare-side">
+                        <div class="compare-title">
+                            <span>Discrete Electronic Components</span>
+                            <span class="badge badge-mv">MV &bull; Discrete</span>
+                        </div>
+                        <ul style="list-style: none; font-size: 13px; line-height: 1.8; color: var(--text-muted);">
+                            <li><strong>Good Integrated Circuit:</strong> Requires 4x Discrete Resistors + 4x Discrete Diodes (20s duration).</li>
+                            <li><strong>Advanced Circuit:</strong> Requires 4x Discrete Transistors (40s duration).</li>
+                            <li><strong>Diode Yield:</strong> 1 Small Gallium Arsenide Dust + 4 Fine Copper &rarr; 4 Diodes.</li>
+                            <li><strong>Resistor Yield:</strong> 1 Coal Dust + 2 Fine Copper &rarr; 1 Resistor.</li>
+                            <li><strong>Capacitor Yield:</strong> 2 Aluminium Foil + 1 PE Foil &rarr; 8 Capacitors.</li>
+                            <li><strong>Transistor Yield:</strong> 1 Silicon Plate + 8 Fine Tin Wire &rarr; 6 Transistors.</li>
+                        </ul>
+                    </div>
+
+                    <!-- Side D: SMD Components -->
+                    <div class="compare-side highlight">
+                        <div class="compare-title">
+                            <span style="color: #34d399;">Surface Mount Devices (SMD Line)</span>
+                            <span class="badge badge-hv">HV &bull; SMT 16x-64x</span>
+                        </div>
+                        <ul style="list-style: none; font-size: 13px; line-height: 1.8; color: var(--text-main);">
+                            <li>&#9989; <strong>Good Integrated Circuit (SMD Swap):</strong> Requires only <strong>1x ASMD Resistor + 1x ASMD Diode</strong> (75% component reduction, crafts in <strong>10s</strong>!).</li>
+                            <li>&#9989; <strong>Advanced Circuit (SMD Swap):</strong> Requires only <strong>1x ASMD Transistor</strong> (75% transistor reduction, crafts in <strong>20s</strong>!).</li>
+                            <li>&#9989; <strong>SMD Diode Yield:</strong> 1 GaAs Dust + 16 Fine Platinum &rarr; <strong style="color: var(--gold-light);">64x SMD Diodes!</strong></li>
+                            <li>&#9989; <strong>SMD Resistor Yield:</strong> 1 Carbon + 4 Fine Electrum &rarr; <strong style="color: var(--gold-light);">16x (or 32x with Tantalum)!</strong></li>
+                            <li>&#9989; <strong>SMD Capacitor Yield:</strong> 2 Aluminium Foil + PVC &rarr; <strong style="color: var(--gold-light);">24x SMD Capacitors!</strong></li>
+                            <li>&#9989; <strong>SMD Transistor Yield:</strong> 1 Gallium Foil + 8 Fine Annealed Copper &rarr; <strong style="color: var(--gold-light);">16x (or 32x with Tantalum)!</strong></li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Amortization & Break-Even Calculator -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">&#128200;</span> Cleanroom &amp; SMD Line Amortization Calculator</div>
+                    <span style="font-size: 12px; color: var(--text-muted);">Calculate the exact break-even point for your infrastructure</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 16px;">
+                    Building a Cleanroom and HV SMD Assemblers requires an upfront investment of ~120 Steel plates, 20 Plasmatic Plascrete, Filter Casings, and 4 HV machine hulls (~64 Gold/Silver, 32 Chrome). How many circuits amortize this cost?
+                </p>
+
+                <div class="grid-3" style="margin-bottom: 16px;">
+                    <div>
+                        <label class="control-label">Projected Circuits to Craft</label>
+                        <input type="number" id="amort-qty" class="text-input mono" value="128" min="16" max="5000" oninput="updateAmortization()">
+                    </div>
+                    <div>
+                        <label class="control-label">Primary Target Circuit</label>
+                        <select id="amort-circuit" class="select-input" onchange="updateAmortization()">
+                            <option value="good_integrated">Good Integrated Circuit (MV)</option>
+                            <option value="advanced_circuit" selected>Advanced Circuit (HV)</option>
+                            <option value="workstation">Workstation / Data Circuit (EV)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="control-label">SMD Wire Material</label>
+                        <select id="amort-wire" class="select-input" onchange="updateAmortization()">
+                            <option value="electrum">Electrum / Platinum (Standard)</option>
+                            <option value="tantalum">Tantalum (2x Component Multiplier)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="metric-strip" id="amort-results">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- TAB 3: BOARDS & CHEMICAL ETCHING -->
+        <!-- ============================================================== -->
+        <section id="pane-boards" class="tab-pane">
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">&#128190;</span> Circuit Board Hierarchy &amp; Plastic Substrate Yield Multipliers</div>
+                    <span class="badge badge-mv">Chemical Synthesis</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 16px; line-height: 1.5;">
+                    Circuit board production is one of the biggest resource sinks in GTNH. Advancing your polymer synthesis directly multiplies circuit board output per raw plate and unit of acid:
+                </p>
+
+                <div class="table-wrap" style="margin-bottom: 20px;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Board Tier</th>
+                                <th>Substrate Material</th>
+                                <th>Fluid / Acid Input</th>
+                                <th>Foil Input</th>
+                                <th>Base Yield</th>
+                                <th>Multiplier vs PE</th>
+                                <th>Target Circuit Tier</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>Coated Board (T1)</strong></td>
+                                <td>1x Wood Plate</td>
+                                <td>72 mB Glue</td>
+                                <td>4x Copper Foil</td>
+                                <td class="mono">1x Board</td>
+                                <td class="mono">Baseline</td>
+                                <td><span class="badge badge-lv">LV</span> Basic Electronic</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Coated Board (PE)</strong></td>
+                                <td>1x Wood Plate</td>
+                                <td>36 mB Molten Polyethylene</td>
+                                <td>4x Copper Foil</td>
+                                <td class="mono" style="color: #34d399; font-weight: 700;">2x Boards</td>
+                                <td class="mono" style="color: #34d399;">2.0x Yield</td>
+                                <td><span class="badge badge-lv">LV</span> 50% Wood Savings</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Phenolic Board (T2)</strong></td>
+                                <td>1x Wood Dust</td>
+                                <td>36 mB Bisphenol A (or Glue)</td>
+                                <td>4x Gold Foil</td>
+                                <td class="mono">1x to 2x</td>
+                                <td class="mono">2.0x (with BPA)</td>
+                                <td><span class="badge badge-mv">MV</span> Good Electronic / GIC</td>
+                            </tr>
+                            <tr style="background: rgba(6, 182, 212, 0.05);">
+                                <td><strong>Plastic Board (PE)</strong></td>
+                                <td>1x Polyethylene Plate</td>
+                                <td>500 mB Sulfuric Acid</td>
+                                <td>4x Copper Foil</td>
+                                <td class="mono">1x Board</td>
+                                <td class="mono">Baseline (1x)</td>
+                                <td><span class="badge badge-hv">HV</span> Microprocessor / Plastic</td>
+                            </tr>
+                            <tr style="background: rgba(16, 185, 129, 0.08);">
+                                <td><strong>Plastic Board (PVC)</strong></td>
+                                <td>1x Polyvinyl Chloride Plate</td>
+                                <td>500 mB Sulfuric Acid</td>
+                                <td>4x Copper Foil</td>
+                                <td class="mono" style="color: #34d399; font-weight: 700;">2x Boards</td>
+                                <td class="mono" style="color: #34d399; font-weight: 700;">2.0x Yield</td>
+                                <td><span class="badge badge-hv">HV</span> <strong>50% Copper &amp; Acid Saved!</strong></td>
+                            </tr>
+                            <tr style="background: rgba(245, 158, 11, 0.08);">
+                                <td><strong>Plastic Board (PTFE)</strong></td>
+                                <td>1x Polytetrafluoroethylene Plate</td>
+                                <td>500 mB Sulfuric Acid</td>
+                                <td>4x Copper Foil</td>
+                                <td class="mono" style="color: var(--gold-light); font-weight: 700;">4x Boards</td>
+                                <td class="mono" style="color: var(--gold-light); font-weight: 700;">4.0x Yield</td>
+                                <td><span class="badge badge-hv">HV</span> <strong>75% Copper &amp; Acid Saved!</strong></td>
+                            </tr>
+                            <tr style="background: rgba(168, 85, 247, 0.08);">
+                                <td><strong>Plastic Board (PBI)</strong></td>
+                                <td>1x Polybenzimidazole Plate</td>
+                                <td>500 mB Sulfuric Acid</td>
+                                <td>4x Copper Foil</td>
+                                <td class="mono" style="color: var(--purple-light); font-weight: 700;">8x Boards</td>
+                                <td class="mono" style="color: var(--purple-light); font-weight: 700;">8.0x Yield</td>
+                                <td><span class="badge badge-hv">HV</span> End-Game Polymer Scaling</td>
+                            </tr>
+                            <tr>
+                                <td><strong>Epoxy Board (T4)</strong></td>
+                                <td>1x Epoxid Plate</td>
+                                <td>500 mB Sulfuric Acid</td>
+                                <td>8x Gold Foil</td>
+                                <td class="mono">1x Board</td>
+                                <td class="mono">Baseline</td>
+                                <td><span class="badge badge-ev">EV</span> Nanoprocessor / Mainframes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Chemical Etching Analysis -->
+                <div class="card-header" style="margin-top: 24px;">
+                    <div class="card-title"><span class="icon">&#9879;&#65039;</span> Chemical Etchant Efficiency: Iron(III) Chloride vs. Sodium Persulfate</div>
+                </div>
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 16px; line-height: 1.5;">
+                    When etching circuit boards in the Chemical Reactor or Chemical Bath, you must supply an etching solution to etch the copper/gold/electrum traces:
+                </p>
+
+                <div class="grid-2">
+                    
+                    <div class="compare-side highlight">
+                        <div class="compare-title">
+                            <span style="color: #34d399;">Iron(III) Chloride (FeCl3) - 2x Efficiency</span>
+                            <span class="badge badge-mv">Optimal Etchant</span>
+                        </div>
+                        <ul style="list-style: none; font-size: 13px; line-height: 1.8; color: var(--text-main);">
+                            <li>&#9989; <strong>Half the Volume:</strong> Requires exactly <strong>50%</strong> of the fluid volume compared to Sodium Persulfate!</li>
+                            <li>&#9989; <strong>Phenolic Board:</strong> 100 mB FeCl3 vs. 200 mB Persulfate.</li>
+                            <li>&#9989; <strong>Plastic Board:</strong> 250 mB FeCl3 vs. 500 mB Persulfate.</li>
+                            <li>&#9989; <strong>Epoxy Board:</strong> 500 mB FeCl3 vs. 1000 mB Persulfate.</li>
+                            <li>&#9989; <strong>Recipe:</strong> 1 Iron Dust + 6000 mB Hydrochloric Acid &rarr; 2000 mB FeCl3 + 3000 mB Hydrogen. Easy to loop with chlorine regeneration!</li>
+                        </ul>
+                    </div>
+
+                    <div class="compare-side">
+                        <div class="compare-title">
+                            <span style="color: #93c5fd;">Sodium Persulfate (Na2S2O8) - Early Fallback</span>
+                            <span class="badge badge-lv">Early Alternate</span>
+                        </div>
+                        <ul style="list-style: none; font-size: 13px; line-height: 1.8; color: var(--text-muted);">
+                            <li>&#10060; <strong>Double the Volume:</strong> Consumes 2x more fluid per board craft.</li>
+                            <li>&#10060; <strong>Complex Synthesis:</strong> Requires Sodium Dust + 2 Sulfur + 8 Oxygen in Chemical Reactor.</li>
+                            <li>&#10060; <strong>Useful Early:</strong> Does not require chlorine or hydrochloric acid loops if chlorine is unavailable in early LV.</li>
+                            <li>&#9888;&#65039; <strong>Recommendation:</strong> Switch to Iron(III) Chloride immediately upon reaching MV to cut chemical fluid logistics in half.</li>
+                        </ul>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- TAB 4: ROAD TO AE2 PATHWAY -->
+        <!-- ============================================================== -->
+        <section id="pane-ae2" class="tab-pane">
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">&#127937;</span> Milestone Ladder: Stone Age to AE2 ME Controller</div>
+                    <span class="badge badge-ae2">Progression Timeline</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px; line-height: 1.5;">
+                    The journey to Applied Energistics 2 is the defining arc of early-to-mid GTNH. Here is the verified sequence of machines, fluids, and board transitions required to reach the ME Controller without wasted crafting:
+                </p>
+
+                <div class="tree-container">
+                    
+                    <!-- Phase 1 -->
+                    <div class="flow-step">
+                        <div class="flow-circle">1</div>
+                        <div class="flow-content">
+                            <div class="flow-heading">
+                                <span>Phase 1: Steam &amp; ULV Vacuum Tubes</span>
+                                <span class="badge badge-ulv">ULV Age</span>
+                            </div>
+                            <div class="flow-desc">
+                                Smelt early Copper, Redstone &amp; Iron/Steel. Craft manual <strong>Vacuum Tubes</strong> using Glass Tubes, Copper Wire, Steel Rods, and Red Alloy Bolts. Hand-assemble primitive steam machines.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 2 -->
+                    <div class="flow-step">
+                        <div class="flow-circle">2</div>
+                        <div class="flow-content">
+                            <div class="flow-heading">
+                                <span>Phase 2: First LV Circuit Assembler &amp; Soldering</span>
+                                <span class="badge badge-lv">LV Milestone</span>
+                            </div>
+                            <div class="flow-desc">
+                                Hand-craft your first 3 Basic Electronic Circuits to build the <strong>LV Circuit Assembler</strong> and <strong>Chemical Bath</strong>. Transition all circuit crafting to the Assembler: immediately saves 100% of Steel casings, 33% Red Alloy, and unlocks 4x Vacuum Tube yields with molten Red Alloy.
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 3 -->
+                    <div class="flow-step">
+                        <div class="flow-circle">3</div>
+                        <div class="flow-content">
+                            <div class="flow-heading">
+                                <span>Phase 3: MV Silicon Boule &amp; Laser Engraving</span>
+                                <span class="badge badge-mv">MV Breakthrough</span>
+                            </div>
+                            <div class="flow-desc">
+                                Build the Electric Blast Furnace (1784 K). Melt 32 Solar-Grade Silicon Dust + 1 Tiny Gallium Arsenide Crystal to pull your first <strong>Silicon Boule</strong>. Slice into 16 Wafers. Engrave with Red Lens (128 ILC chips) and Cyan Lens (512 RAM chips). Eliminates Vacuum Tubes forever!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 4 -->
+                    <div class="flow-step">
+                        <div class="flow-circle">4</div>
+                        <div class="flow-content">
+                            <div class="flow-heading">
+                                <span>Phase 4: HV Cleanroom &amp; SMD Assembly</span>
+                                <span class="badge badge-hv">HV Optimization</span>
+                            </div>
+                            <div class="flow-desc">
+                                Construct the Cleanroom (Sterile Filter Casings). Unlock CPU Wafers (White Lens) and the <strong>Plastic Circuit Board</strong> line. Build HV Assemblers to spin up SMD Resistors (16x-32x), SMD Diodes (64x), SMD Capacitors (24x), and SMD Transistors (32x). Advanced Circuits now craft in 20s with 75% fewer discrete parts!
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phase 5 -->
+                    <div class="flow-step">
+                        <div class="flow-circle">5</div>
+                        <div class="flow-content">
+                            <div class="flow-heading">
+                                <span>Phase 5: EV Titanium &amp; The AE2 ME Controller Gate</span>
+                                <span class="badge badge-ae2">AE2 Unlocked</span>
+                            </div>
+                            <div class="flow-desc">
+                                Blast Titanium in EBF (1700 K+ with Argon/Nitrogen gas). Craft 4x Titanium Plates, 2x HV Circuits (Advanced Circuits or Integrated Processors), 2x Engineering Processors (Diamond + Printed Silicon in Inscriber/Press), and 1x Fluix Block. Assemble the <strong>ME Controller</strong> in an HV Assembler (512 EU/t, 5 seconds). Welcome to digital storage!
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Starter Network Estimator -->
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">&#128640;</span> AE2 Starter Infrastructure Circuit Estimator</div>
+                    <span style="font-size: 12px; color: var(--text-muted);">Total circuit budget to launch an automated AE2 autocrafting network</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 16px;">
+                    Select the components you plan to build for your first functional AE2 autocrafting hub to see the total circuit requirements:
+                </p>
+
+                <div class="grid-4" style="margin-bottom: 20px;">
+                    <div>
+                        <label class="control-label">ME Controllers</label>
+                        <input type="number" id="ae-ctrl" class="text-input mono" value="1" min="1" max="10" oninput="updateAE2Planner()">
+                    </div>
+                    <div>
+                        <label class="control-label">ME Drives</label>
+                        <input type="number" id="ae-drive" class="text-input mono" value="1" min="1" max="10" oninput="updateAE2Planner()">
+                    </div>
+                    <div>
+                        <label class="control-label">Crafting Terminals</label>
+                        <input type="number" id="ae-term" class="text-input mono" value="2" min="1" max="10" oninput="updateAE2Planner()">
+                    </div>
+                    <div>
+                        <label class="control-label">ME Interfaces</label>
+                        <input type="number" id="ae-iface" class="text-input mono" value="4" min="1" max="32" oninput="updateAE2Planner()">
+                    </div>
+                    <div>
+                        <label class="control-label">Molecular Assemblers</label>
+                        <input type="number" id="ae-assem" class="text-input mono" value="4" min="1" max="32" oninput="updateAE2Planner()">
+                    </div>
+                    <div>
+                        <label class="control-label">1k / 4k Storage Cells</label>
+                        <input type="number" id="ae-cells" class="text-input mono" value="10" min="1" max="64" oninput="updateAE2Planner()">
+                    </div>
+                    <div>
+                        <label class="control-label">Crafting CPUs (Co-proc)</label>
+                        <input type="number" id="ae-cpus" class="text-input mono" value="2" min="1" max="16" oninput="updateAE2Planner()">
+                    </div>
+                    <div>
+                        <label class="control-label">Fluix / Glass Cables</label>
+                        <input type="number" id="ae-cables" class="text-input mono" value="32" min="8" max="256" oninput="updateAE2Planner()">
+                    </div>
+                </div>
+
+                <div class="metric-strip" id="ae2-budget-strip">
+                    <!-- Populated dynamically -->
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- ============================================================== -->
+        <!-- TAB 5: GAME-CODE CIRCUIT CODEX -->
+        <!-- ============================================================== -->
+        <section id="pane-codex" class="tab-pane">
+            
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title"><span class="icon">&#128214;</span> GregTech 5 Unofficial &amp; NHCoreMod Circuit Code Codex</div>
+                    <span class="badge badge-hv">Verified Code References</span>
+                </div>
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px; line-height: 1.5;">
+                    Every mechanic, ratio, and recipe in this companion suite is directly grounded in the official GTNH 2.9 codebase. Here are the exact code snippets governing early-to-mid circuit production:
+                </p>
+
+                <!-- Codex Item 1 -->
+                <div style="margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <strong style="color: #fff; font-size: 14px;">1. Soldering Fluid Multipliers (SubstituteFluidStack.java)</strong>
+                        <span class="mono" style="font-size: 11px; color: var(--gold-light);">gregtech.api.objects.SubstituteFluidStack</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 8px;">
+                        When a Circuit Assembler recipe specifies soldering fluid, the game applies the material's solder quality multiplier:
+                    </p>
+                    <div class="code-box">
+<code><span class="code-keyword">public static final</span> Materials[] solderingMats = <span class="code-keyword">new</span> Materials[] {
+    Materials.SolderingAlloy, Materials.Tin, Materials.Lead
+};
+
+<span class="code-keyword">for</span> (Materials material : solderingMats) {
+    <span class="code-keyword">int</span> multiplier = material.contains(SubTag.SOLDERING_MATERIAL_GOOD) ? <span class="code-annotation">1</span>  <span class="code-comment">// Soldering Alloy (1x base = 72 mB)</span>
+        : material.contains(SubTag.SOLDERING_MATERIAL_BAD) ? <span class="code-annotation">4</span>               <span class="code-comment">// Lead (4x base = 288 mB)</span>
+        : <span class="code-annotation">2</span>;                                                                  <span class="code-comment">// Tin (2x base = 144 mB)</span>
+    fluids.add(material.getMolten(baseAmount * multiplier));
+}</code>
+                    </div>
+                </div>
+
+                <!-- Codex Item 2 -->
+                <div style="margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <strong style="color: #fff; font-size: 14px;">2. Basic Electronic Circuit Assembler Recipe (CircuitAssemblerRecipes.java)</strong>
+                        <span class="mono" style="font-size: 11px; color: var(--cyan-light);">com.dreammaster.gthandler.recipes.CircuitAssemblerRecipes</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 8px;">
+                        Assembler automation eliminates the steel item casing and insulated rubber cables entirely:
+                    </p>
+                    <div class="code-box">
+<code>GTValues.RA.stdBuilder()
+    .itemInputs(
+        ItemList.Circuit_Board_Coated_Basic.get(1L),
+        ItemList.Circuit_Parts_Resistor.get(2L),
+        GTOreDictUnificator.get(OrePrefixes.wireGt01, Materials.RedAlloy, 2), <span class="code-comment">// Bare wire, only 2 instead of 3 cables!</span>
+        ItemList.Circuit_Parts_Vacuum_Tube.get(2L))
+    .itemOutputs(getModItem(IndustrialCraft2.ID, <span class="code-annotation">"itemPartCircuit"</span>, 1, 0))
+    .fluidInputs(SubstituteFluidStack.soldering(1 * HALF_INGOTS)) <span class="code-comment">// 72 mB Soldering Alloy</span>
+    .duration(10 * SECONDS)
+    .eut(TierEU.RECIPE_LV / 2) <span class="code-comment">// 16 EU/t</span>
+    .addTo(circuitAssemblerRecipes);</code>
+                    </div>
+                </div>
+
+                <!-- Codex Item 3 -->
+                <div style="margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <strong style="color: #fff; font-size: 14px;">3. SMD Component Yield Scaling (AssemblerRecipes.java)</strong>
+                        <span class="mono" style="font-size: 11px; color: var(--green-light);">com.dreammaster.gthandler.recipes.AssemblerRecipes</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 8px;">
+                        Surface Mount Devices (SMD) produce massive yields per single unit of rare dust or foil:
+                    </p>
+                    <div class="code-box">
+<code><span class="code-comment">// SMD Resistors: 1 Carbon Dust + 4 Electrum Fine Wires -&gt; 16x SMD Resistors (or 32x with Tantalum!)</span>
+GTValues.RA.stdBuilder()
+    .itemInputs(GTOreDictUnificator.get(OrePrefixes.dust, Materials.Carbon, 1),
+                GTOreDictUnificator.get(OrePrefixes.wireFine, Materials.Electrum, 4))
+    .circuit(3).itemOutputs(ItemList.Circuit_Parts_ResistorSMD.get(<span class="code-annotation">16L</span>))
+    .fluidInputs(Materials.Polyethylene.getMolten(288L)).duration(8 * SECONDS).eut(TierEU.RECIPE_HV).addTo(assemblerRecipes);
+
+<span class="code-comment">// SMD Diodes: 1 Gallium Arsenide Dust + 16 Platinum Fine Wires -&gt; 64x SMD Diodes!</span>
+GTValues.RA.stdBuilder()
+    .itemInputs(GTOreDictUnificator.get(OrePrefixes.wireFine, Materials.Platinum, 16),
+                GTOreDictUnificator.get(OrePrefixes.dust, Materials.GalliumArsenide, 1))
+    .circuit(3).itemOutputs(ItemList.Circuit_Parts_DiodeSMD.get(<span class="code-annotation">64L</span>))
+    .fluidInputs(Materials.Polyethylene.getMolten(576L)).duration(30 * SECONDS).eut(TierEU.RECIPE_HV).addTo(assemblerRecipes);</code>
+                    </div>
+                </div>
+
+                <!-- Codex Item 4 -->
+                <div style="margin-bottom: 24px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                        <strong style="color: #fff; font-size: 14px;">4. AE2 ME Controller Assembly Gate (AssemblerRecipes.java)</strong>
+                        <span class="mono" style="font-size: 11px; color: var(--purple-light);">com.dreammaster.gthandler.recipes.AssemblerRecipes</span>
+                    </div>
+                    <p style="color: var(--text-muted); font-size: 12px; margin-bottom: 8px;">
+                        The exact machine recipe that locks AE2 automation behind the HV circuit &amp; Titanium blast furnace gate:
+                    </p>
+                    <div class="code-box">
+<code>GTValues.RA.stdBuilder()
+    .itemInputs(
+        GTOreDictUnificator.get(OrePrefixes.plate, Materials.Titanium, 4L),
+        GTOreDictUnificator.get(OrePrefixes.circuit, Materials.HV, 2L), <span class="code-comment">// 2x HV Circuits</span>
+        getModItem(AppliedEnergistics2.ID, <span class="code-annotation">"item.ItemMultiMaterial"</span>, 2, 24), <span class="code-comment">// Engineering Processor</span>
+        getModItem(AppliedEnergistics2.ID, <span class="code-annotation">"tile.BlockFluix"</span>, 1, 0))
+    .circuit(2)
+    .itemOutputs(getModItem(AppliedEnergistics2.ID, <span class="code-annotation">"tile.BlockController"</span>, 1))
+    .duration(5 * SECONDS)
+    .eut(TierEU.RECIPE_HV) <span class="code-comment">// 512 EU/t</span>
+    .addTo(assemblerRecipes);</code>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>GregTech: New Horizons Companion Suite &bull; GTNH Circuit Evolution &amp; Material Tradeoff Architect &bull; Single-File HTML5 Artifact &bull; 100% Code Verified</p>
+    </footer>
+
+    <!-- INTERACTIVE ENGINE SCRIPT -->
+    <script>
+        // Ground-Truth Circuit Database
+        const CIRCUITS = {
+            vacuum_tube: {
+                name: "Vacuum Tube",
+                tier: "ULV",
+                badgeClass: "badge-ulv",
+                desc: "ULV primitive component. Manual crafting consumes 3x Copper wire + 2x Steel rods. Assembler quadruples yield to 4 tubes with 72 mB Red Alloy!",
+                baseTime: 8,
+                baseEU: 4,
+                recipes: {
+                    manual: {
+                        name: "Manual Crafting Table",
+                        yield: 1,
+                        copper: 2.0,
+                        steel: 1.0,
+                        redstone: 0.5,
+                        solderingAlloy: 0,
+                        glass: 1.0,
+                        subcomponents: [
+                            { name: "Glass Tube", qty: 1, machine: "Alloy Smelter / Glass", tier: "ULV", note: "1 Glass Ingot / Dust" },
+                            { name: "1x Copper Wire", qty: 3, machine: "Wire Cutter / Wiremill", tier: "Stone", note: "1.5 Copper ingots" },
+                            { name: "Fine Copper Wire", qty: 2, machine: "Wiremill / Crafting", tier: "Stone", note: "0.25 Copper ingot" },
+                            { name: "Steel Rod", qty: 2, machine: "File / Lathe", tier: "Steam", note: "1.0 Steel ingot" },
+                            { name: "Red Alloy Bolt", qty: 1, machine: "Saw / Cutter / Lathe", tier: "Steam", note: "0.125 Red Alloy" }
+                        ]
+                    },
+                    assembler: {
+                        name: "Circuit Assembler (Circuit 5)",
+                        yield: 4,
+                        copper: 2.5,
+                        steel: 2.0,
+                        redstone: 2.0,
+                        solderingAlloy: 0,
+                        redAlloyFluid: 72,
+                        glass: 4.0,
+                        subcomponents: [
+                            { name: "Glass Tube", qty: 4, machine: "Alloy Smelter / Glass", tier: "ULV", note: "1 tube per output tube" },
+                            { name: "1x Copper Wire", qty: 4, machine: "Wiremill / Cutter", tier: "LV", note: "Only 0.5 copper ingot per tube!" },
+                            { name: "Steel Rod", qty: 4, machine: "Lathe / Extruder", tier: "LV", note: "Only 0.5 steel ingot per tube!" },
+                            { name: "Molten Red Alloy", qty: 72, machine: "Fluid Extractor", tier: "LV", note: "0.5 ingot Red Alloy = 2 Redstone + 0.5 Copper" }
+                        ]
+                    }
+                }
+            },
+            basic_electronic: {
+                name: "Basic Electronic Circuit",
+                tier: "LV",
+                badgeClass: "badge-lv",
+                desc: "The backbone of LV. Manual crafting demands a Steel Item Casing and 3x insulated cables. Assembler cuts Red Alloy by 33% and drops the steel casing completely!",
+                baseTime: 10,
+                baseEU: 16,
+                recipes: {
+                    manual: {
+                        name: "Manual Crafting Table",
+                        yield: 1,
+                        copper: 7.5,
+                        steel: 2.5,
+                        redstone: 13.0,
+                        solderingAlloy: 0,
+                        wood: 1.0,
+                        coal: 2.0,
+                        subcomponents: [
+                            { name: "Basic Coated Board", qty: 1, machine: "Crafting Table", tier: "Stone", note: "1 Wood Plate + Glue + 4 Copper Wires" },
+                            { name: "Vacuum Tube", qty: 2, machine: "Crafting Table", tier: "Stone", note: "Manual tube craft" },
+                            { name: "Discrete Resistor", qty: 2, machine: "Crafting Table", tier: "Stone", note: "Coal dust + Fine copper + Slime" },
+                            { name: "1x Red Alloy Cable", qty: 3, machine: "Crafting Table", tier: "Steam", note: "3 Wires + Rubber/Paper insulation" },
+                            { name: "Steel Item Casing", qty: 1, machine: "Forge Hammer", tier: "Steam", note: "0.5 Steel Plate (Wasted in manual!)" }
+                        ]
+                    },
+                    assembler: {
+                        name: "Circuit Assembler (Optimal LV)",
+                        yield: 1,
+                        copper: 4.25,
+                        steel: 1.0,
+                        redstone: 9.0,
+                        solderingAlloy: 72,
+                        wood: 0.5,
+                        coal: 2.0,
+                        subcomponents: [
+                            { name: "Basic Coated Board", qty: 1, machine: "Assembler / Chem Bath", tier: "ULV", note: "Glue/PE + Copper Foil" },
+                            { name: "Vacuum Tube (Assembler)", qty: 2, machine: "Circuit Assembler", tier: "ULV", note: "Quadruple yield recipe" },
+                            { name: "Discrete Resistor", qty: 2, machine: "Assembler / Crafting", tier: "ULV", note: "Fine copper + Coal + Paper" },
+                            { name: "1x Red Alloy Wire", qty: 2, machine: "Wiremill / Cutter", tier: "LV", note: "NO insulation required! Saves 1 wire" },
+                            { name: "Soldering Fluid", qty: 72, machine: "Fluid Hatch", tier: "LV", note: "0.5 ingot Soldering Alloy" }
+                        ]
+                    }
+                }
+            },
+            integrated_logic: {
+                name: "Integrated Logic Circuit (ILC)",
+                tier: "LV",
+                badgeClass: "badge-lv",
+                desc: "The silicon route to Tier 1 circuits. Slices Laser-Engraved Silicon Wafers (Red Lens) into 8x ILC Chips, replacing vacuum tubes forever.",
+                baseTime: 10,
+                baseEU: 16,
+                recipes: {
+                    assembler: {
+                        name: "Circuit Assembler (Silicon Line)",
+                        yield: 1,
+                        copper: 2.5,
+                        steel: 0,
+                        redstone: 2.0,
+                        silicon: 0.25,
+                        tin: 0.5,
+                        solderingAlloy: 72,
+                        wood: 0.5,
+                        subcomponents: [
+                            { name: "Basic Coated Board", qty: 1, machine: "Assembler", tier: "ULV", note: "Coated board" },
+                            { name: "ILC Chip", qty: 1, machine: "Laser Engraver + Cutter", tier: "MV", note: "1 Wafer = 8 Chips! 0 Steel needed" },
+                            { name: "Discrete Resistor", qty: 2, machine: "Assembler", tier: "ULV", note: "Coal dust + Fine copper" },
+                            { name: "Discrete Diode", qty: 2, machine: "Assembler", tier: "LV", note: "Fine copper + Gallium Arsenide" },
+                            { name: "Tin Bolt", qty: 2, machine: "Lathe / Cutter", tier: "LV", note: "0.25 Tin ingot" }
+                        ]
+                    }
+                }
+            },
+            good_electronic: {
+                name: "Good Electronic Circuit",
+                tier: "MV",
+                badgeClass: "badge-mv",
+                desc: "Standard Tier 2 MV Circuit. Combines 2x Basic Electronic Circuits on an etched Phenolic Board with Diodes and Copper Wire.",
+                baseTime: 15,
+                baseEU: 30,
+                recipes: {
+                    assembler: {
+                        name: "Circuit Assembler (MV)",
+                        yield: 1,
+                        copper: 10.5,
+                        steel: 2.0,
+                        redstone: 18.0,
+                        gold: 1.0,
+                        solderingAlloy: 144,
+                        subcomponents: [
+                            { name: "Good Phenolic Board", qty: 1, machine: "Chemical Reactor", tier: "LV", note: "Wood dust + Gold Foil + FeCl3" },
+                            { name: "Basic Electronic Circuit", qty: 2, machine: "Circuit Assembler", tier: "LV", note: "Sub-circuits" },
+                            { name: "Discrete Diode", qty: 2, machine: "Assembler", tier: "LV", note: "Fine copper + GaAs" },
+                            { name: "1x Copper Wire", qty: 2, machine: "Wiremill", tier: "LV", note: "1.0 Copper ingot" }
+                        ]
+                    }
+                }
+            },
+            good_integrated: {
+                name: "Good Integrated Circuit (GIC)",
+                tier: "MV",
+                badgeClass: "badge-mv",
+                desc: "Integrated Tier 2 Circuit. Supports SMD part-swapping: 1x Advanced SMD Resistor + 1x Advanced SMD Diode replaces 4 of each, cutting duration from 20s to 10s!",
+                baseTime: 20,
+                baseEU: 24,
+                recipes: {
+                    discrete: {
+                        name: "Discrete Component Route",
+                        yield: 1,
+                        copper: 6.0,
+                        gold: 2.0,
+                        silver: 0.5,
+                        tin: 1.0,
+                        solderingAlloy: 72,
+                        subcomponents: [
+                            { name: "Good Phenolic Board", qty: 1, machine: "Chemical Reactor", tier: "LV", note: "Etched with FeCl3 / Persulfate" },
+                            { name: "Integrated Logic Circuit", qty: 2, machine: "Circuit Assembler", tier: "LV", note: "Sub-circuits" },
+                            { name: "Discrete Resistor", qty: 4, machine: "Assembler", tier: "LV", note: "4 individual resistors" },
+                            { name: "Discrete Diode", qty: 4, machine: "Assembler", tier: "LV", note: "4 individual diodes" },
+                            { name: "Fine Gold Wire", qty: 4, machine: "Wiremill", tier: "LV", note: "0.5 Gold ingot" },
+                            { name: "Silver Bolt", qty: 4, machine: "Lathe", tier: "LV", note: "0.5 Silver ingot" }
+                        ]
+                    },
+                    smd: {
+                        name: "SMD Part-Swapping Route",
+                        yield: 1,
+                        copper: 5.2,
+                        gold: 1.7,
+                        silver: 0.5,
+                        tin: 1.0,
+                        solderingAlloy: 72,
+                        subcomponents: [
+                            { name: "Good Phenolic Board", qty: 1, machine: "Chemical Reactor", tier: "LV", note: "Etched board" },
+                            { name: "Integrated Logic Circuit", qty: 2, machine: "Circuit Assembler", tier: "LV", note: "Sub-circuits" },
+                            { name: "Advanced SMD Resistor", qty: 1, machine: "Assembler (Circuit 3)", tier: "HV", note: "1x ASMD instead of 4 discrete! (10s duration)" },
+                            { name: "Advanced SMD Diode", qty: 1, machine: "Assembler (Circuit 3)", tier: "HV", note: "1x ASMD instead of 4 discrete!" },
+                            { name: "Fine Gold Wire", qty: 4, machine: "Wiremill", tier: "LV", note: "0.5 Gold ingot" },
+                            { name: "Silver Bolt", qty: 4, machine: "Lathe", tier: "LV", note: "0.5 Silver ingot" }
+                        ]
+                    }
+                }
+            },
+            microprocessor: {
+                name: "Microprocessor (Plastic Line)",
+                tier: "MV",
+                badgeClass: "badge-mv",
+                desc: "High-volume Tier 2 alternative crafted on Plastic Circuit Boards with CPU chips in a Cleanroom. Produces 2 circuits per assembly cycle!",
+                baseTime: 10,
+                baseEU: 64,
+                recipes: {
+                    assembler: {
+                        name: "Cleanroom Circuit Assembler",
+                        yield: 2,
+                        copper: 4.5,
+                        silicon: 0.5,
+                        polyethylene: 1.0,
+                        solderingAlloy: 72,
+                        subcomponents: [
+                            { name: "Plastic Circuit Board", qty: 1, machine: "Chemical Reactor", tier: "HV", note: "PE/PVC substrate etched with FeCl3" },
+                            { name: "CPU Chip", qty: 1, machine: "Laser Engraver + Cutter", tier: "MV", note: "White Lens in Cleanroom (1 Wafer = 8 Chips)" },
+                            { name: "Discrete Resistor", qty: 2, machine: "Assembler", tier: "LV", note: "Or SMD" },
+                            { name: "Discrete Capacitor", qty: 2, machine: "Assembler", tier: "MV", note: "Aluminium Foil + PE" },
+                            { name: "Discrete Transistor", qty: 2, machine: "Assembler", tier: "LV", note: "Silicon Plate + Tin" }
+                        ]
+                    }
+                }
+            },
+            advanced_circuit: {
+                name: "Advanced Circuit",
+                tier: "HV",
+                badgeClass: "badge-hv",
+                desc: "Standard Tier 3 HV circuit. Combines a Good Integrated Circuit with RAM Chips, ILC Chips, Transistors, Electrum wire, and Annealed Copper bolts.",
+                baseTime: 40,
+                baseEU: 30,
+                recipes: {
+                    discrete: {
+                        name: "Discrete Component Route (40s)",
+                        yield: 1,
+                        copper: 12.0,
+                        electrum: 2.0,
+                        gold: 2.5,
+                        silver: 1.5,
+                        silicon: 1.0,
+                        solderingAlloy: 72,
+                        subcomponents: [
+                            { name: "Good Integrated Circuit", qty: 1, machine: "Circuit Assembler", tier: "MV", note: "Base circuit" },
+                            { name: "ILC Chip", qty: 2, machine: "Laser Engraver + Cutter", tier: "MV", note: "Red Lens" },
+                            { name: "RAM Chip", qty: 2, machine: "Laser Engraver + Cutter", tier: "MV", note: "Cyan Lens (1 Wafer = 32 Chips!)" },
+                            { name: "Discrete Transistor", qty: 4, machine: "Assembler", tier: "LV", note: "4 discrete transistors" },
+                            { name: "Fine Electrum Wire", qty: 8, machine: "Wiremill", tier: "LV", note: "1.0 Electrum ingot" },
+                            { name: "Annealed Copper Bolt", qty: 8, machine: "Lathe", tier: "LV", note: "1.0 Annealed Copper ingot" }
+                        ]
+                    },
+                    smd: {
+                        name: "SMD Part-Swapping Route (20s)",
+                        yield: 1,
+                        copper: 10.5,
+                        electrum: 2.0,
+                        gold: 2.2,
+                        silver: 1.5,
+                        silicon: 1.0,
+                        solderingAlloy: 72,
+                        subcomponents: [
+                            { name: "Good Integrated Circuit (SMD)", qty: 1, machine: "Circuit Assembler", tier: "MV", note: "Base circuit" },
+                            { name: "ILC Chip", qty: 2, machine: "Laser Engraver + Cutter", tier: "MV", note: "Red Lens" },
+                            { name: "RAM Chip", qty: 2, machine: "Laser Engraver + Cutter", tier: "MV", note: "Cyan Lens" },
+                            { name: "Advanced SMD Transistor", qty: 1, machine: "Assembler (Circuit 3)", tier: "HV", note: "Only 1 ASMD replaces 4 discrete! Cuts time to 20s" },
+                            { name: "Fine Electrum Wire", qty: 8, machine: "Wiremill", tier: "LV", note: "1.0 Electrum ingot" },
+                            { name: "Annealed Copper Bolt", qty: 8, machine: "Lathe", tier: "LV", note: "1.0 Annealed Copper ingot" }
+                        ]
+                    }
+                }
+            },
+            integrated_processor: {
+                name: "Integrated Processor",
+                tier: "HV",
+                badgeClass: "badge-hv",
+                desc: "High-spec Tier 3 alternative crafted on Plastic Circuit Boards with CPU chips in a Cleanroom. Required for EV computers and AE2 gates.",
+                baseTime: 10,
+                baseEU: 64,
+                recipes: {
+                    assembler: {
+                        name: "Cleanroom Circuit Assembler",
+                        yield: 1,
+                        copper: 8.0,
+                        silicon: 1.0,
+                        redstone: 4.0,
+                        polyethylene: 1.5,
+                        solderingAlloy: 72,
+                        subcomponents: [
+                            { name: "Plastic Circuit Board", qty: 1, machine: "Chemical Reactor", tier: "HV", note: "Cleanroom etched" },
+                            { name: "CPU Chip", qty: 1, machine: "Laser Engraver + Cutter", tier: "MV", note: "White Lens" },
+                            { name: "Discrete Resistor", qty: 4, machine: "Assembler", tier: "LV", note: "4x Resistors" },
+                            { name: "Discrete Capacitor", qty: 4, machine: "Assembler", tier: "MV", note: "4x Capacitors" },
+                            { name: "Discrete Transistor", qty: 4, machine: "Assembler", tier: "LV", note: "4x Transistors" },
+                            { name: "Fine Red Alloy Wire", qty: 4, machine: "Wiremill", tier: "LV", note: "0.5 Red Alloy ingot" }
+                        ]
+                    }
+                }
+            },
+            nanoprocessor: {
+                name: "Nanoprocessor",
+                tier: "HV",
+                badgeClass: "badge-hv",
+                desc: "The gateway to Nanotech. Crafted on Advanced Epoxy Boards in an EV Cleanroom using NanoCPU Chips and SMD components.",
+                baseTime: 10,
+                baseEU: 600,
+                recipes: {
+                    smd: {
+                        name: "Advanced SMT Line (Cleanroom)",
+                        yield: 1,
+                        electrum: 3.5,
+                        gold: 2.0,
+                        epoxy: 1.0,
+                        platinum: 1.0,
+                        solderingAlloy: 72,
+                        subcomponents: [
+                            { name: "Advanced Epoxy Board", qty: 1, machine: "Chemical Reactor", tier: "EV", note: "Epoxid + Electrum Foil + FeCl3" },
+                            { name: "NanoCPU Chip", qty: 1, machine: "Laser Engraver + Cutter", tier: "HV", note: "Cleanroom engraved" },
+                            { name: "SMD Resistor", qty: 8, machine: "Assembler", tier: "HV", note: "Or 2x ASMD" },
+                            { name: "SMD Capacitor", qty: 8, machine: "Assembler", tier: "HV", note: "Or 2x ASMD" },
+                            { name: "SMD Transistor", qty: 8, machine: "Assembler", tier: "HV", note: "Or 2x ASMD" },
+                            { name: "Fine Electrum Wire", qty: 8, machine: "Wiremill", tier: "LV", note: "1.0 Electrum ingot" }
+                        ]
+                    }
+                }
+            },
+            workstation: {
+                name: "Workstation / Data Circuit",
+                tier: "EV",
+                badgeClass: "badge-ev",
+                desc: "Tier 4 EV Mainframe predecessor. Requires Cleanroom. Combines 2x Advanced Circuits with 8x RAM Chips and Blue Alloy bolts.",
+                baseTime: 20,
+                baseEU: 128,
+                recipes: {
+                    discrete: {
+                        name: "Discrete Route (20s)",
+                        yield: 1,
+                        copper: 24.0,
+                        electrum: 6.0,
+                        gold: 5.0,
+                        blueAlloy: 2.0,
+                        solderingAlloy: 144,
+                        subcomponents: [
+                            { name: "Plastic Circuit Board", qty: 1, machine: "Chemical Reactor", tier: "HV", note: "Plastic board" },
+                            { name: "Advanced Circuit", qty: 2, machine: "Circuit Assembler", tier: "HV", note: "2x Tier 3 circuits" },
+                            { name: "RAM Chip", qty: 8, machine: "Laser Engraver + Cutter", tier: "MV", note: "Cyan Lens" },
+                            { name: "Discrete Diode", qty: 4, machine: "Assembler", tier: "LV", note: "4 discrete diodes" },
+                            { name: "Fine Electrum Wire", qty: 16, machine: "Wiremill", tier: "LV", note: "2.0 Electrum ingots" },
+                            { name: "Blue Alloy Bolt", qty: 16, machine: "Lathe", tier: "HV", note: "2.0 Blue Alloy ingots" }
+                        ]
+                    },
+                    smd: {
+                        name: "SMD Part-Swapping Route (10s)",
+                        yield: 1,
+                        copper: 21.0,
+                        electrum: 6.0,
+                        gold: 4.8,
+                        blueAlloy: 2.0,
+                        solderingAlloy: 144,
+                        subcomponents: [
+                            { name: "Plastic Circuit Board", qty: 1, machine: "Chemical Reactor", tier: "HV", note: "Plastic board" },
+                            { name: "Advanced Circuit (SMD)", qty: 2, machine: "Circuit Assembler", tier: "HV", note: "2x Tier 3 circuits" },
+                            { name: "RAM Chip", qty: 8, machine: "Laser Engraver + Cutter", tier: "MV", note: "Cyan Lens" },
+                            { name: "Advanced SMD Diode", qty: 1, machine: "Assembler (Circuit 3)", tier: "HV", note: "1x ASMD instead of 4 discrete! (10s duration)" },
+                            { name: "Fine Electrum Wire", qty: 16, machine: "Wiremill", tier: "LV", note: "2.0 Electrum ingots" },
+                            { name: "Blue Alloy Bolt", qty: 16, machine: "Lathe", tier: "HV", note: "2.0 Blue Alloy ingots" }
+                        ]
+                    }
+                }
+            },
+            processor_assembly: {
+                name: "Processor Assembly / Computer",
+                tier: "EV",
+                badgeClass: "badge-ev",
+                desc: "High-spec Tier 4 Computer. Assembles 2x Integrated Processors on a Plastic Board with SMD Inductors, Capacitors, and RAM chips in Cleanroom.",
+                baseTime: 10,
+                baseEU: 96,
+                recipes: {
+                    smd: {
+                        name: "Cleanroom Circuit Assembler",
+                        yield: 1,
+                        copper: 18.0,
+                        silicon: 2.5,
+                        redstone: 12.0,
+                        polyethylene: 3.0,
+                        solderingAlloy: 144,
+                        subcomponents: [
+                            { name: "Plastic Circuit Board", qty: 1, machine: "Chemical Reactor", tier: "HV", note: "Plastic board" },
+                            { name: "Integrated Processor", qty: 2, machine: "Circuit Assembler", tier: "HV", note: "2x Tier 3 processors" },
+                            { name: "ASMD Inductor", qty: 1, machine: "Assembler", tier: "HV", note: "1x ASMD Inductor" },
+                            { name: "ASMD Capacitor", qty: 2, machine: "Assembler", tier: "HV", note: "2x ASMD Capacitors" },
+                            { name: "RAM Chip", qty: 4, machine: "Laser Engraver + Cutter", tier: "MV", note: "Cyan Lens" },
+                            { name: "Fine Red Alloy Wire", qty: 8, machine: "Wiremill", tier: "LV", note: "1.0 Red Alloy ingot" }
+                        ]
+                    }
+                }
+            },
+            ae2_controller: {
+                name: "AE2 ME Controller",
+                tier: "AE2",
+                badgeClass: "badge-ae2",
+                desc: "The digital brain of Applied Energistics 2. Gated behind 4x Titanium Plates, 2x HV Circuits, 2x Engineering Processors, and 1x Fluix Block in an HV Assembler (512 EU/t).",
+                baseTime: 5,
+                baseEU: 512,
+                recipes: {
+                    assembler: {
+                        name: "HV Assembler (Circuit 2)",
+                        yield: 1,
+                        titanium: 4.0,
+                        copper: 21.0,
+                        electrum: 4.0,
+                        gold: 4.5,
+                        diamond: 2.0,
+                        silicon: 4.0,
+                        fluix: 4.0,
+                        solderingAlloy: 144,
+                        subcomponents: [
+                            { name: "Titanium Plate", qty: 4, machine: "Electric Blast Furnace", tier: "EV", note: "1700 K+ with Argon/Nitrogen gas" },
+                            { name: "HV Circuit (Advanced Circuit)", qty: 2, machine: "Circuit Assembler", tier: "HV", note: "2x Tier 3 circuits" },
+                            { name: "Engineering Processor", qty: 2, machine: "Forming Press / Inscriber", tier: "HV", note: "2 Diamond + 2 Printed Silicon + 2 Redstone" },
+                            { name: "Block of Fluix", qty: 1, machine: "Compressor / Crafting", tier: "LV", note: "4x Pure Fluix Crystals or 9x Fluix Dust" }
+                        ]
+                    }
+                }
+            }
+        };
+
+        // UI Tab Switcher
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+            const target = document.getElementById('pane-' + tabId);
+            if (target) target.classList.add('active');
+        }
+
+        function setQty(val) {
+            document.getElementById('input-qty').value = val;
+            document.querySelectorAll('.qty-btn').forEach(b => {
+                b.classList.toggle('active', parseInt(b.innerText) === val);
+            });
+            updateScaler();
+        }
+
+        // Scaler Update Engine
+        function updateScaler() {
+            const circuitKey = document.getElementById('sel-circuit').value;
+            const qtyInput = parseInt(document.getElementById('input-qty').value) || 1;
+            const methodSelect = document.getElementById('sel-method').value;
+            const solderSelect = document.getElementById('sel-solder').value;
+
+            const cData = CIRCUITS[circuitKey];
+            if (!cData) return;
+
+            // Update badge
+            const badge = document.getElementById('cfg-tier-badge');
+            badge.className = 'badge ' + cData.badgeClass;
+            badge.innerText = cData.tier + ' Tier';
+
+            // Determine active recipe variant
+            let recipeKey = 'assembler';
+            if (cData.recipes[methodSelect]) {
+                recipeKey = methodSelect;
+            } else if (methodSelect === 'smd' && cData.recipes.smd) {
+                recipeKey = 'smd';
+            } else if (methodSelect === 'manual' && cData.recipes.manual) {
+                recipeKey = 'manual';
+            } else if (cData.recipes.assembler) {
+                recipeKey = 'assembler';
+            } else if (cData.recipes.discrete) {
+                recipeKey = 'discrete';
+            } else {
+                recipeKey = Object.keys(cData.recipes)[0];
+            }
+
+            const recipe = cData.recipes[recipeKey];
+            const batchYield = recipe.yield || 1;
+            const cycles = Math.ceil(qtyInput / batchYield);
+            const actualTotalCircuits = cycles * batchYield;
+
+            // Solder Multiplier (GT5U SubstituteFluidStack rule: 1x Alloy, 2x Tin, 4x Lead)
+            let solderMultiplier = 1;
+            let solderName = "Soldering Alloy";
+            if (solderSelect === 'tin') {
+                solderMultiplier = 2;
+                solderName = "Molten Tin (2x)";
+            } else if (solderSelect === 'lead') {
+                solderMultiplier = 4;
+                solderName = "Molten Lead (4x)";
+            }
+
+            // Calculate total raw materials
+            const totalCopper = ((recipe.copper || 0) * cycles).toFixed(1);
+            const totalSteel = ((recipe.steel || 0) * cycles).toFixed(1);
+            const totalRedstone = Math.round((recipe.redstone || 0) * cycles);
+            const totalGold = ((recipe.gold || 0) * cycles).toFixed(1);
+            const totalSilver = ((recipe.silver || 0) * cycles).toFixed(1);
+            const totalElectrum = ((recipe.electrum || 0) * cycles).toFixed(1);
+            const totalSilicon = ((recipe.silicon || 0) * cycles).toFixed(1);
+            const totalTitanium = ((recipe.titanium || 0) * cycles).toFixed(1);
+            const totalSolderMB = Math.round((recipe.solderingAlloy || 0) * solderMultiplier * cycles);
+            const totalTimeSec = cData.baseTime * cycles;
+
+            // Update Metrics Strip
+            document.getElementById('metric-circuits').innerText = actualTotalCircuits;
+            document.getElementById('metric-copper').innerText = totalCopper;
+            document.getElementById('metric-redstone').innerText = totalRedstone;
+            document.getElementById('metric-solder').innerText = totalSolderMB > 0 ? (totalSolderMB.toLocaleString() + ' mB') : '0 mB';
+            document.getElementById('metric-time').innerText = totalTimeSec >= 60 ? (Math.floor(totalTimeSec/60) + 'm ' + (totalTimeSec%60) + 's') : (totalTimeSec + 's');
+
+            // Update Recipe Dossier text
+            document.getElementById('recipe-dossier-text').innerHTML = `
+                <strong>${recipe.name}</strong> &bull; Output: <span class="mono" style="color:var(--gold-light);">${batchYield}x</span> per cycle &bull; Energy: <span class="mono" style="color:var(--cyan-light);">${cData.baseEU} EU/t</span> (${cData.tier})<br>
+                ${cData.desc}
+            `;
+
+            // Populate BOM Table
+            const bomBody = document.getElementById('bom-table-body');
+            bomBody.innerHTML = '';
+
+            const materials = [
+                { name: "Copper Ingot", total: totalCopper, per: ((recipe.copper||0)/batchYield).toFixed(2), form: "Wires, Foils, Alloy Wires", stage: "Wiremill / Bender" },
+                { name: "Redstone Dust", total: totalRedstone, per: ((recipe.redstone||0)/batchYield).toFixed(1), form: "Red Alloy, Chips, Circuits", stage: "Alloy Smelter / Mixer" },
+                { name: "Steel Ingot", total: totalSteel, per: ((recipe.steel||0)/batchYield).toFixed(2), form: "Rods, Bolts, Casings", stage: "Lathe / Extruder" },
+                { name: "Gold Ingot", total: totalGold, per: ((recipe.gold||0)/batchYield).toFixed(2), form: "Fine Wire, Foils", stage: "Wiremill / Bender" },
+                { name: "Silver Ingot", total: totalSilver, per: ((recipe.silver||0)/batchYield).toFixed(2), form: "Bolts, Solder", stage: "Lathe" },
+                { name: "Electrum Ingot", total: totalElectrum, per: ((recipe.electrum||0)/batchYield).toFixed(2), form: "Fine Wire, Foils", stage: "Wiremill / Chemical" },
+                { name: "Silicon (Solar Grade)", total: totalSilicon, per: ((recipe.silicon||0)/batchYield).toFixed(2), form: "Boules, Wafers, Chips", stage: "EBF &bull; Laser Engraver" },
+                { name: "Titanium Ingot", total: totalTitanium, per: ((recipe.titanium||0)/batchYield).toFixed(2), form: "Heavy Plating", stage: "EBF (1700 K+)" },
+                { name: solderName, total: totalSolderMB > 0 ? (totalSolderMB.toLocaleString() + ' mB') : '0', per: Math.round(((recipe.solderingAlloy||0)*solderMultiplier)/batchYield) + ' mB', form: "Molten Soldering Fluid", stage: "Fluid Extractor / Hatch" }
+            ].filter(m => parseFloat(m.total) > 0);
+
+            materials.forEach(m => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td><strong>${m.name}</strong></td>
+                    <td class="mono" style="color: var(--gold-light); font-weight: 700;">${m.total}</td>
+                    <td class="mono" style="color: var(--text-muted);">${m.per}</td>
+                    <td>${m.form}</td>
+                    <td><span class="badge badge-lv">${m.stage}</span></td>
+                `;
+                bomBody.appendChild(tr);
+            });
+
+            // Populate Intermediate Components Table
+            const subBody = document.getElementById('sub-table-body');
+            subBody.innerHTML = '';
+
+            (recipe.subcomponents || []).forEach(sub => {
+                const tr = document.createElement('tr');
+                const reqQty = sub.qty * cycles;
+                tr.innerHTML = `
+                    <td><strong>${sub.name}</strong></td>
+                    <td class="mono" style="color: var(--cyan-light); font-weight: 700;">${reqQty.toLocaleString()}</td>
+                    <td>${sub.machine}</td>
+                    <td><span class="badge badge-${sub.tier.toLowerCase()}">${sub.tier}</span></td>
+                    <td style="color: var(--text-muted); font-size: 12px;">${sub.note}</td>
+                `;
+                subBody.appendChild(tr);
+            });
+        }
+
+        // Amortization Calculator
+        function updateAmortization() {
+            const qty = parseInt(document.getElementById('amort-qty').value) || 64;
+            const target = document.getElementById('amort-circuit').value;
+            const wire = document.getElementById('amort-wire').value;
+
+            let discreteTime = 40;
+            let smdTime = 20;
+            let savedPerCircuit = { gallium: 0.1, platinum: 0.05, time: 20 };
+
+            if (target === 'good_integrated') {
+                discreteTime = 20;
+                smdTime = 10;
+                savedPerCircuit = { gallium: 0.08, components: 6, time: 10 };
+            } else if (target === 'advanced_circuit') {
+                discreteTime = 40;
+                smdTime = 20;
+                savedPerCircuit = { silicon: 0.5, components: 3, time: 20 };
+            } else if (target === 'workstation') {
+                discreteTime = 20;
+                smdTime = 10;
+                savedPerCircuit = { diodes: 3, components: 3, time: 10 };
+            }
+
+            const totalTimeSaved = Math.round((savedPerCircuit.time * qty) / 60);
+            const breakevenCircuits = target === 'good_integrated' ? 48 : (target === 'advanced_circuit' ? 32 : 16);
+
+            const container = document.getElementById('amort-results');
+            container.innerHTML = `
+                <div class="metric-box">
+                    <div class="metric-val green">${breakevenCircuits} Units</div>
+                    <div class="metric-label">Cleanroom Break-Even</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-val gold">${totalTimeSaved} Minutes</div>
+                    <div class="metric-label">Assembly Time Saved</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-val cyan">${qty * 3} Parts</div>
+                    <div class="metric-label">Fewer Sub-Components</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-val purple">50% Faster</div>
+                    <div class="metric-label">Cycle Time Reduction</div>
+                </div>
+            `;
+        }
+
+        // AE2 Starter Network Planner
+        function updateAE2Planner() {
+            const ctrl = parseInt(document.getElementById('ae-ctrl').value) || 1;
+            const drive = parseInt(document.getElementById('ae-drive').value) || 1;
+            const term = parseInt(document.getElementById('ae-term').value) || 2;
+            const iface = parseInt(document.getElementById('ae-iface').value) || 4;
+            const assem = parseInt(document.getElementById('ae-assem').value) || 4;
+            const cells = parseInt(document.getElementById('ae-cells').value) || 10;
+            const cpus = parseInt(document.getElementById('ae-cpus').value) || 2;
+
+            // Circuit requirements:
+            // Controller: 2 HV circuits + 4 Titanium
+            // Drive: 2 MV circuits + 2 Eng Proc
+            // Terminal: 1 MV circuit + 1 Illuminating panel + 2 Certus
+            // Interface: 1 MV circuit + 2 Annihilation + 2 Formation
+            // Molecular Assembler: 2 MV circuits + 1 Fluix + Crafting table
+            // 1k Storage: 1 LV circuit per cell (10 cells = 10 LV circuits)
+            // 4k Storage: 1 MV circuit per cell
+            // Crafting CPU: 1 MV circuit + 1 Calc processor
+
+            const totalHV = (ctrl * 2);
+            const totalMV = (drive * 2) + (term * 1) + (iface * 1) + (assem * 2) + (cpus * 1);
+            const totalLV = (cells * 1);
+            const totalTitanium = (ctrl * 4);
+
+            const container = document.getElementById('ae2-budget-strip');
+            container.innerHTML = `
+                <div class="metric-box">
+                    <div class="metric-val gold">${totalHV}</div>
+                    <div class="metric-label">HV Circuits Needed</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-val green">${totalMV}</div>
+                    <div class="metric-label">MV Circuits Needed</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-val cyan">${totalLV}</div>
+                    <div class="metric-label">LV Circuits (Cells)</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-val purple">${totalTitanium} Ingots</div>
+                    <div class="metric-label">Titanium Plates</div>
+                </div>
+            `;
+        }
+
+        // Initialize on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            updateScaler();
+            updateAmortization();
+            updateAE2Planner();
+        });
+    </script>
+</body>
+</html>
